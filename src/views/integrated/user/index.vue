@@ -1,5 +1,6 @@
 <template>
-  <div class="user">
+  <div>
+    <Bread />
     <el-card>
       <div slot="header">
         <span style="font-size:13px;font-weight:800;">个人中心</span>

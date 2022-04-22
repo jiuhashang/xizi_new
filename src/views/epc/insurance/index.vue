@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- mianbaoxie -->
     <Bread />
     <!-- 搜索区域 -->
     <div class="search">
