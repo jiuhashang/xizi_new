@@ -1,0 +1,68 @@
+/* 全局样式表 */
+html,
+body,
+#app {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  min-width: 1366px;
+}
+.el-container {
+  height: 100%;
+}
+.el-menu {
+  height: 100%;
+  border-right: 0;
+}
+.el-breadcrumb {
+  margin-bottom: 15px;
+  font-size: 12px;
+}
+
+.el-card {
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15) !important;
+}
+.el-table {
+  font-size: 12px;
+}
+/* .el-pagination {
+  margin-top: 15px;
+} */
+.el-card {
+  margin: 15px;
+}
+.width100 {
+  width: 100%;
+}
+.span13 {
+  font-size: 12px;
+  color: #aaa;
+  text-align: right;
+}
+.span130 {
+  font-size: 12px;
+  color: #000;
+}
+.el-main {
+  padding: 0;
+}
+.fs14 {
+  font-size: 14px;
+  margin-top: 18px;
+}
+.fw800 {
+  font-weight: 800;
+}
+.yi {
+  overflow: hidden; 
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.el-tooltip__popper {
+  max-width: 45% !important;
+  position: absolute;
+  left: 300px !important;
+}
+.el-form-item__label {
+  font-size: 12px !important;
+}
