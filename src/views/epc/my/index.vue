@@ -137,6 +137,7 @@
     <el-card>
       <div slot="header">
         <span style="font-weight:800;font-size:13px;">项目列表</span>
+        <!-- <el-button type="primary" size="mini" style="float: right;" @click="handleRegister">立项登记</el-button> -->
       </div>
       <div>
         <div v-if="list.length" >
@@ -146,10 +147,12 @@
               <div>
                 <span v-if="item.startTime !== null" style="margin-right:20px;">{{ item.startTime }} 至 {{ item.endTime }}</span>
                 <span v-else style="margin-right:20px;">暂定</span>
+
                 <el-button round size="mini" v-if="item.timeLimitFlag == 0">未超期</el-button>
                 <el-button round size="mini" v-else-if="item.timeLimitFlag == 1">临期</el-button>
                 <el-button round size="mini" v-else-if="item.timeLimitFlag == 2">已过期</el-button>
                 <el-button round size="mini" v-else>  无  </el-button>
+                
                 <el-button type="primary" round size="mini" v-if="item.status == 0">未开始</el-button>
                 <el-button type="primary" round size="mini" v-else-if="item.status == 1">进行中</el-button>
                 <el-button type="primary" round size="mini" v-else-if="item.status == 2">已暂停</el-button>
@@ -158,51 +161,57 @@
               </div>
             </div>
             <div class="bottom">
-              <div class="f">
-                <div class="mb10">
-                  <span class="mr10">项目来源</span>
-                  <span v-show="item.projectSource == 0">自主投资</span>
-                  <span v-show="item.projectSource == 1">EPC项目</span>
-                  <span v-show="item.projectSource == 9">其他项目</span>
-                </div>
-                <div>
-                  <span class="mr10">项目类型</span>
-                  <span v-show="item.projectType == 0">分布式项目</span>
-                </div>
+              <div class="left">
+                <el-row :gutter="20" class="mb10">
+                  <el-col :span="6">
+                    <span class="mr10">项目来源</span>
+                    <span v-show="item.projectSource == 0">自主投资</span>
+                    <span v-show="item.projectSource == 1">EPC项目</span>
+                    <span v-show="item.projectSource == 9">其他项目</span>
+                  </el-col>
+                  <el-col :span="6">
+                    <span class="mr10">优先级别</span>
+                    <span v-show="item.firstLevel == 0">低</span>
+                    <span v-show="item.firstLevel == 1">中</span>
+                    <span v-show="item.firstLevel == 2">高</span>
+                  </el-col>
+                  <el-col :span="6">
+                    <span class="mr10">项目经理</span>
+                    <span>{{ item.nickName ? item.nickName : '-' }}</span>
+                  </el-col>
+                  <el-col :span="6">
+                    <span class="mr10">关键任务</span>
+                  </el-col>
+                </el-row>
+                <el-row :gutter="20">
+                  <el-col :span="6">
+                    <span class="mr10">项目类型</span>
+                    <span v-show="item.projectType == 0">分布式项目</span>
+                  </el-col>
+                  <el-col :span="6">
+                    <span class="mr10">紧急程度</span>
+                    <span v-show="item.urgentLevel == 0">一般</span>
+                    <span v-show="item.urgentLevel == 1">紧急</span>
+                    <span v-show="item.urgentLevel == 2">非常紧急</span>
+                  </el-col>
+                  <el-col :span="6">
+                    <span class="mr10" style="margin-left:12px;">里程碑</span>
+                    <span v-show="item.selfAccessProgress == 0">起始阶段</span>
+                    <span v-show="item.selfAccessProgress == 1">接入方案</span>
+                    <span v-show="item.selfAccessProgress == 2">初设完成</span>
+                    <span v-show="item.selfAccessProgress == 3">施工进场</span>
+                    <span v-show="item.selfAccessProgress == 4">并网完成</span>
+                    <span v-show="item.selfAccessProgress == 5">竣工验收</span>
+                  </el-col>
+                  <el-col :span="6">
+                    <span class="mr10">一般任务</span>
+                  </el-col>
+                </el-row>
               </div>
-              <div class="f">
-                <div class="mb10">
-                  <span class="mr10">优先级别</span>
-                  <span v-show="item.firstLevel == 0">低</span>
-                  <span v-show="item.firstLevel == 1">中</span>
-                  <span v-show="item.firstLevel == 2">高</span>
-                </div>
-                <div>
-                  <span class="mr10">紧急程度</span>
-                  <span v-show="item.urgentLevel == 0">一般</span>
-                  <span v-show="item.urgentLevel == 1">紧急</span>
-                  <span v-show="item.urgentLevel == 2">非常紧急</span>
-                </div>
-              </div>
-              <div class="f">
-                <div class="mb10">
-                  <span class="mr10">项目经理</span>
-                  <span>{{ item.nickName ? item.nickName : '-' }}</span>
-                </div>
-                <div>
-                  <span class="mr10" style="margin-left:12px;">里程碑</span>
-                  <span v-show="item.selfAccessProgress == 0">起始阶段</span>
-                  <span v-show="item.selfAccessProgress == 1">接入方案</span>
-                  <span v-show="item.selfAccessProgress == 2">初设完成</span>
-                  <span v-show="item.selfAccessProgress == 3">施工进场</span>
-                  <span v-show="item.selfAccessProgress == 4">并网完成</span>
-                  <span v-show="item.selfAccessProgress == 5">竣工验收</span>
-                </div>
-              </div>
-              <div class="f" style="width:25%;"> 
-                <div class="mb10">
+              <div class="right">
+                <div class="f"> 
                   <span class="mr10">时间进度</span>
-                  <el-progress :percentage="item.timeProgress" style="width:70%;margin-top:6px;" v-if="item.timeProgress !== null" />
+                  <el-progress :percentage="item.timeProgress" style="width:70%;margin-top:2px;" v-if="item.timeProgress !== null" />
                   <span v-else>-</span>
                 </div>
               </div>
@@ -289,6 +298,9 @@ export default {
     handleShow () {
       this.isShow = !this.isShow
     },
+    handleRegister () {
+      this.$router.push({ name: 'Register' })
+    },
     handleDetail ( id ) {
       this.$router.push({ name: 'Detail', query: { id } })
     },
@@ -331,10 +343,16 @@ export default {
     border-bottom-right-radius: 3px;
     padding: 15px 0;
     display: flex;
-    justify-content: space-around;
-    .f {
-      div {
+    justify-content: space-between;
+    .left {
+      width: 65%;
+      padding-left: 20px;
+    }
+    .right {
+      width: 35%;
+      .f {
         display: flex;
+        justify-content: flex-end;
       }
     }
   }

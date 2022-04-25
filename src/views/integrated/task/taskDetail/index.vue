@@ -20,13 +20,8 @@
       <el-table :data="tableData" v-loading="loading" row-key="id" default-expand-all :tree-props="{children: 'seEpcProjectTemplateTaskInfoList', hasChildren: 'hasChildren'}" stripe style="margin-top:15px;" :header-cell-style="{background:'#f2f2f2',color:'#555'}" size="mini">
         <el-table-column prop="taskName" label="任务名称" />
         <el-table-column prop="sortNum" label="排序" />
-        <el-table-column prop="updateTime" label="最后修改时间" />
-        <el-table-column label="是否提醒">
-          <template slot-scope="scope">
-            <span v-if="scope.row.wornFlag == 1">是</span>
-            <span v-else>否</span>
-          </template>
-        </el-table-column>
+        <el-table-column label="任务级别" />
+        <el-table-column label="默认工期" />
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button type="text" @click="handleEditOne(scope.row)">编辑</el-button>
@@ -46,11 +41,14 @@
           <el-form-item label="排序" prop="sortNum">
             <el-input type="number" v-model="oneForm.sortNum"></el-input>
           </el-form-item>
-          <el-form-item label="提醒" prop="wornFlag">
+          <el-form-item label="任务级别" prop="wornFlag">
             <el-select v-model="oneForm.wornFlag" placeholder="请选择" class="width100">
-              <el-option label="是" :value="1"></el-option>
-              <el-option label="否" :value="0"></el-option>
+              <el-option label="主要任务" :value="1"></el-option>
+              <el-option label="一般任务" :value="0"></el-option>
             </el-select>
+          </el-form-item>
+          <el-form-item label="默认工期" prop="sortNum">
+            <el-input type="number" v-model="oneForm.sortNum"></el-input>
           </el-form-item>
         </el-form>
       </div>
@@ -69,11 +67,14 @@
           <el-form-item label="排序" prop="sortNum">
             <el-input type="number" v-model="oneForm.sortNum"></el-input>
           </el-form-item>
-          <el-form-item label="提醒" prop="wornFlag">
+          <el-form-item label="任务级别" prop="wornFlag">
             <el-select v-model="oneForm.wornFlag" placeholder="请选择" class="width100">
-              <el-option label="是" :value="1"></el-option>
-              <el-option label="否" :value="0"></el-option>
+              <el-option label="主要任务" :value="1"></el-option>
+              <el-option label="一般任务" :value="0"></el-option>
             </el-select>
+          </el-form-item>
+          <el-form-item label="默认工期" prop="sortNum">
+            <el-input type="number" v-model="oneForm.sortNum"></el-input>
           </el-form-item>
         </el-form>
       </div>
@@ -94,14 +95,14 @@
               <el-option :label="item.taskName" :value="item.id" v-for="item in parentList" :key="item.id"></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="排序" prop="sortNum">
-            <el-input type="number" v-model="twoForm.sortNum" />
-          </el-form-item>
-          <el-form-item label="提醒" prop="wornFlag">
+          <el-form-item label="任务级别" prop="wornFlag">
             <el-select v-model="twoForm.wornFlag" placeholder="请选择" class="width100">
-              <el-option label="是" :value="1"></el-option>
-              <el-option label="否" :value="0"></el-option>
+              <el-option label="主要任务" :value="1"></el-option>
+              <el-option label="一般任务" :value="0"></el-option>
             </el-select>
+          </el-form-item>
+          <el-form-item label="默认工期" prop="sortNum">
+            <el-input type="number" v-model="twoForm.sortNum" />
           </el-form-item>
         </el-form>
       </div>

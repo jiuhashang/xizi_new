@@ -1,219 +1,229 @@
 <template>
   <!-- 项目概况 -->
-  <div class="home">
+  <div>
+    <div class="home">
     <!-- 整体左 -->
-    <div class="left">
-      <!-- 左上 -->
-      <div class="top">
-        <div class="header">
-          <div>
-            <i class="el-icon-document-copy" style="margin-right:10px;color:#1890ff;"></i>
-            <span style="font-weight:800;">项目信息</span>
+      <div class="left">
+        <!-- 左上 -->
+        <div class="top">
+          <div class="header">
+            <div>
+              <i class="el-icon-document-copy" style="margin-right:10px;color:#1890ff;"></i>
+              <span style="font-weight:800;">项目信息</span>
+            </div>
+            <el-button type="primary" size="mini" @click="handleRegister">修改项目</el-button>
           </div>
-          <el-button type="primary" size="mini" @click="handleRegister">修改项目</el-button>
-        </div>
-        <div class="body">
-          <el-row :gutter="20">
-            <el-col :span="12">
-              <span class="aaa14">项目名称</span>
-              <span>{{ detailInfo.projectName }}</span>
-            </el-col>
-            <el-col :span="12">
-              <span class="aaa14">公司名称</span>
-              <span>{{ detailInfo.companyName }}</span>
-            </el-col>
-          </el-row>
-          <el-row :gutter="20">
-            <el-col :span="12">
-              <span class="aaa14">项目编号</span>
-              <span>{{ detailInfo.id }}</span>
-            </el-col>
-            <el-col :span="12">
-              <span class="aaa14">建站地点</span>
-              <span>{{ detailInfo.province }} {{ detailInfo.city }}</span>
-            </el-col>
-          </el-row>
-          <el-row :gutter="20">
-            <el-col :span="12">
-              <span class="aaa14">项目来源</span>
-              <span v-if="detailInfo.projectSource == 0">自主投资</span>
-              <span v-else-if="detailInfo.projectSource == 1">EPC项目</span>
-              <span v-else>其他项目</span>
-            </el-col>
-            <el-col :span="12">
-              <span class="aaa14">项目类型</span>
-              <span v-show="detailInfo.projectType == 0">分布式项目</span>
-            </el-col>
-          </el-row>
-          <el-row :gutter="20">
-            <el-col :span="12">
-              <span class="aaa14">优先级别</span>
-              <span v-if="detailInfo.firstLevel == 0">低</span>
-              <span v-else-if="detailInfo.firstLevel == 1">中</span>
-              <span v-else>高</span>
-            </el-col>
-            <el-col :span="12">
-              <span class="aaa14">紧急程度</span>
-              <span v-if="detailInfo.urgentLevel == 0">一般</span>
-              <span v-else-if="detailInfo.urgentLevel == 1">紧急</span>
-              <span v-else>非常紧急</span>
-            </el-col>
-          </el-row>
-          <el-row :gutter="20">
-            <el-col :span="12">
-              <span class="aaa14">EPC合同</span>
-              <span v-if="detailInfo.isEpcContract == 0">无</span>
-              <span v-else-if="detailInfo.isEpcContract == 1">有</span>
-              <span v-else>-</span>
-            </el-col>
-            <el-col :span="12">
-              <span class="aaa14">立项人员</span>
-              <span>{{ detailInfo.createUserName ? detailInfo.createUserName : '-' }}</span>
-            </el-col>
-          </el-row>
-          <el-row :gutter="20">
-            <el-col :span="12">
-              <span class="aaa14">立项时间</span>
-              <span>{{ detailInfo.createTime ? detailInfo.createTime : '-' }}</span>
-            </el-col>
-            <el-col :span="12">
-              <span class="aaa14">绑定项目</span>
-              <span>{{ detailInfo.seProjectInfo ? detailInfo.seProjectInfo.projectName : '-' }}</span>
-            </el-col>
-          </el-row>
-          <div class="yi" style="margin-top: 10px;margin-bottom: 10px;padding-right:20px;">
-            <span style="color:#aaa;margin-right:20px;">项目说明</span>
-            <el-tooltip class="item" effect="dark" :content="detailInfo.setProjectMessage" placement="bottom-start">
-              <span>{{ detailInfo.setProjectMessage ? detailInfo.setProjectMessage : '-' }}</span>
-            </el-tooltip>
-          </div>
-        </div>
-      </div>
-      <!-- 左中 -->
-      <!-- <div class="center">
-        <div class="header">
-          <i class="el-icon-document-copy" style="margin-right:10px;"></i>
-          <span>关键提醒</span>
-        </div>
-        <div class="body">
-          <div><i class="el-icon-success" style="margin-right:15px;color:#67C23A;"></i>EPC合同已签订</div>
-          <div><i class="el-icon-success" style="margin-right:15px;color:#67C23A;"></i>设计图纸已上传</div>
-          <div><i class="el-icon-success" style="margin-right:15px;color:#67C23A;"></i>项目保险存续期中</div>
-          <div><i class="el-icon-success" style="margin-right:15px;color:#67C23A;"></i>施工保险存续期中</div>
-        </div>
-      </div> -->
-      <!-- 左下 -->
-      <!-- <div class="bottom">
-        <div class="header">
-          <i class="el-icon-document-copy" style="margin-right:10px;"></i>
-          <span>任务提醒</span>
-        </div>
-        <div class="body">
-          <el-table :data="tableData" stripe :header-cell-style="{background:'#eef1f6',color:'#606266'}" size="small">
-            <el-table-column label="任务名称" />
-            <el-table-column label="计划时间" />
-            <el-table-column label="延期时间" />
-            <el-table-column label="剩余时间" />
-          </el-table>
-        </div>
-      </div> -->
-    </div>
-    <!-- 整体右 -->
-    <div class="right">
-      <!-- 右上 -->
-      <div class="top">
-        <div class="header">
-          <div>
-            <i class="el-icon-document-copy" style="margin-right:10px;color:#1890ff;"></i>
-            <span style="font-weight:800;">项目进度</span>
-          </div>
-          <div>
-            <el-button type="primary" size="mini" @click="handleLog">进度记录</el-button>
-            <el-button type="primary" size="mini" @click="handleProgress">自评进度</el-button>
-          </div>
-        </div>
-        <div class="body">
-          <div class="top">
-            <el-steps :active="detailInfo.selfAccessProgress + 1" finish-status="success" align-center>
-              <el-step title="起始阶段"></el-step>
-              <el-step title="接入方案"></el-step>
-              <el-step title="初设完成"></el-step>
-              <el-step title="施工进场"></el-step>
-              <el-step title="并网完成"></el-step>
-              <el-step title="竣工验收"></el-step>
-            </el-steps>
-          </div>
-          <div class="content">
-            <el-row :gutter="10">
+          <div class="body">
+            <el-row :gutter="20">
               <el-col :span="12">
-                <span class="aaa14">计划开始</span>
-                <span>{{ detailInfo.startTime ? detailInfo.startTime : '待定' }}</span>
+                <span class="aaa14">项目名称</span>
+                <span>{{ detailInfo.projectName }}</span>
               </el-col>
               <el-col :span="12">
-                <span class="aaa14">实际开始</span>
-                <span>{{ detailInfo.factStartTime ? detailInfo.factStartTime : '-' }}</span>
+                <span class="aaa14">公司名称</span>
+                <span>{{ detailInfo.companyName }}</span>
               </el-col>
             </el-row>
-            <el-row :gutter="10">
+            <el-row :gutter="20">
               <el-col :span="12">
-                <span class="aaa14">计划结束</span>
-                <span>{{ detailInfo.endTime ? detailInfo.endTime : '待定' }}</span>
+                <span class="aaa14">项目编号</span>
+                <span>{{ detailInfo.id }}</span>
               </el-col>
               <el-col :span="12">
-                <span class="aaa14">实际结束</span>
-                <span>{{ detailInfo.factEndTime ? detailInfo.factEndTime : '-' }}</span>
-              </el-col>
-            </el-row>
-            <el-row :gutter="10">
-              <el-col :span="12">
-                <span class="aaa14">计划工期</span>
-                <span>{{ detailInfo.planDay ? detailInfo.planDay : '-' }}</span>
-              </el-col>
-              <el-col :span="12">
-                <span class="aaa14">实际工期</span>
-                <span>{{ detailInfo.factDay ? detailInfo.factDay : '-' }}</span>
+                <span class="aaa14">建站地点</span>
+                <span>{{ detailInfo.province }} {{ detailInfo.city }}</span>
               </el-col>
             </el-row>
-            <el-row :gutter="10">
-              <el-col :span="24">
-                <span class="aaa14">项目结束</span>
-                <span v-if="detailInfo.remainDay">剩余 <span style="color:red;">{{ detailInfo.remainDay }}</span> 天</span>
+            <el-row :gutter="20">
+              <el-col :span="12">
+                <span class="aaa14">项目来源</span>
+                <span v-if="detailInfo.projectSource == 0">自主投资</span>
+                <span v-else-if="detailInfo.projectSource == 1">EPC项目</span>
+                <span v-else>其他项目</span>
+              </el-col>
+              <el-col :span="12">
+                <span class="aaa14">项目类型</span>
+                <span v-show="detailInfo.projectType == 0">分布式项目</span>
+              </el-col>
+            </el-row>
+            <el-row :gutter="20">
+              <el-col :span="12">
+                <span class="aaa14">优先级别</span>
+                <span v-if="detailInfo.firstLevel == 0">低</span>
+                <span v-else-if="detailInfo.firstLevel == 1">中</span>
+                <span v-else>高</span>
+              </el-col>
+              <el-col :span="12">
+                <span class="aaa14">紧急程度</span>
+                <span v-if="detailInfo.urgentLevel == 0">一般</span>
+                <span v-else-if="detailInfo.urgentLevel == 1">紧急</span>
+                <span v-else>非常紧急</span>
+              </el-col>
+            </el-row>
+            <el-row :gutter="20">
+              <el-col :span="12">
+                <span class="aaa14">EPC合同</span>
+                <span v-if="detailInfo.isEpcContract == 0">无</span>
+                <span v-else-if="detailInfo.isEpcContract == 1">有</span>
                 <span v-else>-</span>
               </el-col>
-            </el-row>
-            <el-row :gutter="10">
-              <el-col :span="24" style="display:flex;">
-                <span class="aaa14">时间进度</span>
-                <el-progress :percentage="detailInfo.timeProgress" style="width:70%;margin-top:12px;" v-if="detailInfo.timeProgress" />
-                <span v-else style="margin-top:10px;">-</span>
+              <el-col :span="12">
+                <span class="aaa14">立项人员</span>
+                <span>{{ detailInfo.createUserName ? detailInfo.createUserName : '-' }}</span>
               </el-col>
             </el-row>
+            <el-row :gutter="20">
+              <el-col :span="12">
+                <span class="aaa14">立项时间</span>
+                <span>{{ detailInfo.createTime ? detailInfo.createTime : '-' }}</span>
+              </el-col>
+              <el-col :span="12">
+                <span class="aaa14">绑定项目</span>
+                <span>{{ detailInfo.seProjectInfo ? detailInfo.seProjectInfo.projectName : '-' }}</span>
+              </el-col>
+            </el-row>
+            <div class="yi" style="margin-top: 10px;margin-bottom: 10px;padding-right:20px;">
+              <span style="color:#aaa;margin-right:20px;">项目说明</span>
+              <el-tooltip class="item" effect="dark" :content="detailInfo.setProjectMessage" placement="bottom-start">
+                <span>{{ detailInfo.setProjectMessage ? detailInfo.setProjectMessage : '-' }}</span>
+              </el-tooltip>
+            </div>
+          </div>
+        </div>
+        <!-- 左中 -->
+        <!-- <div class="center">
+          <div class="header">
+            <i class="el-icon-document-copy" style="margin-right:10px;"></i>
+            <span>关键提醒</span>
+          </div>
+          <div class="body">
+            <div><i class="el-icon-success" style="margin-right:15px;color:#67C23A;"></i>EPC合同已签订</div>
+            <div><i class="el-icon-success" style="margin-right:15px;color:#67C23A;"></i>设计图纸已上传</div>
+            <div><i class="el-icon-success" style="margin-right:15px;color:#67C23A;"></i>项目保险存续期中</div>
+            <div><i class="el-icon-success" style="margin-right:15px;color:#67C23A;"></i>施工保险存续期中</div>
+          </div>
+        </div> -->
+        <!-- 左下 -->
+        <!-- <div class="bottom">
+          <div class="header">
+            <i class="el-icon-document-copy" style="margin-right:10px;"></i>
+            <span>任务提醒</span>
+          </div>
+          <div class="body">
+            <el-table :data="tableData" stripe :header-cell-style="{background:'#eef1f6',color:'#606266'}" size="small">
+              <el-table-column label="任务名称" />
+              <el-table-column label="计划时间" />
+              <el-table-column label="延期时间" />
+              <el-table-column label="剩余时间" />
+            </el-table>
+          </div>
+        </div> -->
+      </div>
+      <!-- 整体右 -->
+      <div class="right">
+        <!-- 右上 -->
+        <div class="top">
+          <div class="header">
+            <div>
+              <i class="el-icon-document-copy" style="margin-right:10px;color:#1890ff;"></i>
+              <span style="font-weight:800;">项目进度</span>
+            </div>
+            <div>
+              <el-button type="primary" size="mini" @click="handleLog">进度记录</el-button>
+              <el-button type="primary" size="mini" @click="handleProgress">自评进度</el-button>
+            </div>
+          </div>
+          <div class="body">
+            <div class="top">
+              <el-steps :active="detailInfo.selfAccessProgress + 1" finish-status="success" align-center>
+                <el-step title="起始阶段"></el-step>
+                <el-step title="接入方案"></el-step>
+                <el-step title="初设完成"></el-step>
+                <el-step title="施工进场"></el-step>
+                <el-step title="并网完成"></el-step>
+                <el-step title="竣工验收"></el-step>
+              </el-steps>
+            </div>
+            <div class="content">
+              <el-row :gutter="10">
+                <el-col :span="12">
+                  <span class="aaa14">计划开始</span>
+                  <span>{{ detailInfo.startTime ? detailInfo.startTime : '待定' }}</span>
+                </el-col>
+                <el-col :span="12">
+                  <span class="aaa14">实际开始</span>
+                  <span>{{ detailInfo.factStartTime ? detailInfo.factStartTime : '-' }}</span>
+                </el-col>
+              </el-row>
+              <el-row :gutter="10">
+                <el-col :span="12">
+                  <span class="aaa14">计划结束</span>
+                  <span>{{ detailInfo.endTime ? detailInfo.endTime : '待定' }}</span>
+                </el-col>
+                <el-col :span="12">
+                  <span class="aaa14">实际结束</span>
+                  <span>{{ detailInfo.factEndTime ? detailInfo.factEndTime : '-' }}</span>
+                </el-col>
+              </el-row>
+              <el-row :gutter="10">
+                <el-col :span="12">
+                  <span class="aaa14">计划工期</span>
+                  <span>{{ detailInfo.planDay ? detailInfo.planDay : '-' }}</span>
+                </el-col>
+                <el-col :span="12">
+                  <span class="aaa14">实际工期</span>
+                  <span>{{ detailInfo.factDay ? detailInfo.factDay : '-' }}</span>
+                </el-col>
+              </el-row>
+              <el-row :gutter="10">
+                <el-col :span="24">
+                  <span class="aaa14">项目结束</span>
+                  <span v-if="detailInfo.remainDay">剩余 <span style="color:red;">{{ detailInfo.remainDay }}</span> 天</span>
+                  <span v-else>-</span>
+                </el-col>
+              </el-row>
+              <el-row :gutter="10">
+                <el-col :span="24" style="display:flex;">
+                  <span class="aaa14">时间进度</span>
+                  <el-progress :percentage="detailInfo.timeProgress" style="width:70%;margin-top:12px;" v-if="detailInfo.timeProgress" />
+                  <span v-else style="margin-top:10px;">-</span>
+                </el-col>
+              </el-row>
+            </div>
           </div>
         </div>
       </div>
-      <!-- 右下 -->
-      <div class="bottom">
-        <div class="header">
-          <i class="el-icon-document-copy" style="margin-right:10px;color:#1890ff;"></i>
-          <span style="font-weight:800;">任务情况</span>
+    </div>
+  <!-- 下 -->
+    <div class="bottom">
+      <div class="header">
+        <i class="el-icon-document-copy" style="margin-right:10px;color:#1890ff;"></i>
+        <span style="font-weight:800;">任务情况</span>
+      </div>
+      <div class="body">
+        <div>
+          <p style="font-weight:800;font-size:16px;">{{ taskConut.allTask }}</p>
+          <p>全部任务数</p>
         </div>
-        <div class="body">
-          <div style="border-right:none;">
-            <p style="font-weight:800;font-size:16px;">{{ taskConut.allTask }}</p>
-            <p>全部任务数</p>
-          </div>
-          <div>
-            <p style="font-weight:800;font-size:16px;">{{ taskConut.underwayTask }}</p>
-            <p>待办任务数</p>
-          </div>
-          <div style="border-top:none;border-right:none;">
-            <p style="font-weight:800;font-size:16px;">{{ taskConut.solveTask }}</p>
-            <p>已完成任务数</p>
-          </div>
-          <div style="border-top:none;">
-            <p style="font-weight:800;font-size:16px;">{{ taskConut.timeOverTask }}</p>
-            <p>已超时任务数</p>
-          </div>
+        <div>
+          <p style="font-weight:800;font-size:16px;">{{ taskConut.underwayTask }}</p>
+          <p>进行中任务数</p>
+        </div>
+        <div>
+          <p style="font-weight:800;font-size:16px;">{{ taskConut.solveTask }}</p>
+          <p>已解决任务数</p>
+        </div>
+        <div>
+          <p style="font-weight:800;font-size:16px;">{{ taskConut.timeOverTask }}</p>
+          <p>已超时任务数</p>
+        </div>
+        <div>
+          <p style="font-weight:800;font-size:16px;">{{ taskConut.timeOverTask }}</p>
+          <p>已超时关键任务</p>
+        </div>
+        <div style="border-right: 1px solid #DCDFE6;">
+          <p style="font-weight:800;font-size:16px;">{{ taskConut.timeOverTask }}</p>
+          <p>已超时一般任务</p>
         </div>
       </div>
     </div>
@@ -252,7 +262,6 @@
         <el-button type="primary" @click="logDialogVisible = false" size="small">关 闭</el-button>
       </span>
     </el-dialog>
-    
     <!-- 自评进度 -->
     <el-dialog title="自评进度" :visible.sync="progressDialogVisible" :close-on-click-modal="false" width="40%" @close="clear">
       <el-form ref="form" :model="progressForm" :rules="rules">
@@ -448,28 +457,33 @@ export default {
         }
       }
     }
-    // 右下
-    .bottom {
-      margin: 0 15px 15px 0;
-      background-color: #fff;
-      .header {
-        border: 1px solid #DCDFE6;
-        border-top-left-radius: 3px;
-        border-top-right-radius: 3px;
-        border-bottom: none;
-        padding: 10px 15px;
-      }
-      .body {
-        border-bottom-left-radius: 3px;
-        border-bottom-right-radius: 3px;
-        display: flex;
-        text-align: center;
-        flex-wrap: wrap;
-        div {
-          box-sizing: border-box;
-          border: 1px solid #DCDFE6;
-          width: 50%;
-        }
+  }
+  
+}
+// 下
+.bottom {
+  font-size: 12px;
+  margin: 0 15px 15px 15px;
+  background-color: #fff;
+  .header {
+    border: 1px solid #DCDFE6;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    border-bottom: none;
+    padding: 10px 15px;
+  }
+  .body {
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    display: flex;
+    text-align: center;
+    div {
+      box-sizing: border-box;
+      border: 1px solid #DCDFE6;
+      border-right: none;
+      width: 50%;
+      :last-child {
+        color: #7f7f7f;
       }
     }
   }
