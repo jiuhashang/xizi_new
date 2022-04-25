@@ -100,14 +100,14 @@
     </el-dialog>
 
     <!-- 添加/编辑一级任务 -->
-    <el-dialog :title="oneTitle" :visible.sync="oneAddDialogVisible" :close-on-click-modal="false" width="40%" @close="clearAddOne">
+    <el-dialog :title="oneTitle" :visible.sync="oneAddDialogVisible" :close-on-click-modal="false" width="40%" @close="resetForm('oneRef')">
       <div style="padding: 0 20px;">
-        <el-form :model="oneInfo" :rules="oneRules" label-width="80px" ref="oneRef" size="mini">
+        <el-form ref="oneRef" :model="oneInfo" :rules="oneRules" label-width="80px" size="mini">
           <el-form-item label="任务名称" prop="taskName">
-            <el-input v-model="oneInfo.taskName"></el-input>
+            <el-input v-model="oneInfo.taskName" clearable />
           </el-form-item>
           <el-form-item label="排序" prop="sortNum">
-            <el-input type="number" v-model="oneInfo.sortNum"></el-input>
+            <el-input type="number" v-model="oneInfo.sortNum" clearable />
           </el-form-item>
           <el-form-item label="计划日期" prop="value1">
             <el-date-picker
@@ -117,7 +117,8 @@
               start-placeholder="开始日期"
               end-placeholder="结束日期"
               value-format="yyyy-MM-dd"
-              @change="handleOneTime" 
+              @change="handleOneTime"
+              clearable 
               style="width:100%;" />
           </el-form-item>
         </el-form>
@@ -129,11 +130,11 @@
     </el-dialog>
 
     <!-- 添加/编辑二级任务 -->
-    <el-dialog :title="twoTitle" :visible.sync="twoAddDialogVisible" :close-on-click-modal="false" width="40%"  @close="clearAddTwo">
+    <el-dialog :title="twoTitle" :visible.sync="twoAddDialogVisible" :close-on-click-modal="false" width="40%"  @close="resetForm('twoRef')">
       <div style="padding: 0 20px;">
-        <el-form :model="twoInfo" :rules="twoRules" ref="twoRef" label-width="80px" size="mini">
+        <el-form ref="twoRef" :model="twoInfo" :rules="twoRules" label-width="80px" size="mini">
           <el-form-item label="任务名称" prop="taskName">
-            <el-input v-model="twoInfo.taskName"></el-input>
+            <el-input v-model="twoInfo.taskName" clearable />
           </el-form-item>
           <el-form-item label="父级任务" prop="parentId">
             <el-select v-model="twoInfo.parentId" placeholder="请选择" class="width100">
@@ -141,7 +142,7 @@
             </el-select>
           </el-form-item>
           <el-form-item label="排序" prop="sortNum">
-            <el-input type="number" v-model="twoInfo.sortNum"></el-input>
+            <el-input type="number" v-model="twoInfo.sortNum" clearable />
           </el-form-item>
           <el-form-item label="计划日期" prop="value2">
             <el-date-picker
@@ -152,6 +153,7 @@
               end-placeholder="结束日期"
               value-format="yyyy-MM-dd"
               @change="handleTwoTime" 
+              clearable
               style="width:100%;" />
           </el-form-item>
         </el-form>
@@ -163,7 +165,7 @@
     </el-dialog>
 
     <!-- 解决 -->
-    <el-dialog title="解决任务" :visible.sync="resolveDialogVisible" :close-on-click-modal="false" width="30%" @close="clearResolve">
+    <el-dialog title="解决任务" :visible.sync="resolveDialogVisible" :close-on-click-modal="false" width="30%" @close="resetForm('resolveRef')">
       <el-form ref="resolveRef" :model="resolveForm" :rules="resolveRules" label-width="80px" size="mini">
         <el-form-item label="完成日期" prop="finishTime">
           <el-date-picker type="date" placeholder="选择日期" v-model="resolveForm.finishTime" style="width: 100%;" value-format="yyyy-MM-dd" />
@@ -182,7 +184,7 @@ import Gantt from '@/components/Gantt/Gantt.vue'
 import { getProjectAllTask, addTemplateTask, addProjectTask, deleteTask, closeTask } from '@/api/epc'
 import { getList } from '@/api/integrated'
 
-import cloneDeep from 'lodash/cloneDeep'
+import _ from 'lodash'
 export default {
   name: 'TaskManagement',
   props: ['id'],
@@ -217,11 +219,11 @@ export default {
       oneInfo: {
         id: undefined,
         projectId: this.id,
-        taskLevel: 0,
-        wornFlag: 0,
-        parentId: 0,
-        taskName: undefined,
-        sortNum: undefined,
+        taskLevel: 0, // 一级任务
+        wornFlag: 0, // 提醒
+        parentId: 0, // 父
+        taskName: undefined, // 任务名称
+        sortNum: undefined, // 排序
         startTime: undefined,
         endTime: undefined,
         value1: ''
@@ -241,14 +243,14 @@ export default {
       twoTitle: '',
       twoInfo: {
         id: undefined,
-        projectId: this.id,
-        parentId: undefined,
-        taskLevel: 1,
-        taskName: undefined,
-        wornFlag: 0,
-        sortNum: undefined,
-        startTime: undefined,
-        endTime: undefined,
+        projectId: this.id, 
+        parentId: undefined, // 父模板id
+        taskLevel: 1, // 二级任务
+        taskName: undefined, // 任务名称
+        wornFlag: 0, // 是否提醒
+        sortNum: undefined, // 排序
+        startTime: undefined, // 开始时间
+        endTime: undefined, // 结束时间
         value2: ''
       },
       twoRules: {
@@ -326,7 +328,7 @@ export default {
       })
     },
 
-    // 添加/编辑一级任务
+    // 添加一级任务
     // 转换一级任务时间
     handleOneTime () {
       this.oneInfo.startTime = this.oneInfo.value1[0]
@@ -344,30 +346,24 @@ export default {
             this.getList()
             this.$message.success( res.msg )
             this.oneAddDialogVisible = false
+            this.oneTitle = ''
           })
         }
       })
     },
-    // 编辑对话框
-    clearAddOne () {
-      this.$refs.oneRef.resetFields()
-    },
 
     handleEdit ( row ) {
-      // console.log(row)
-      // return
       if ( row.taskLevel == 0 ) {
         this.oneTitle = '编辑任务'
-        this.oneInfo = cloneDeep( row )
-        this.oneInfo.id = row.id
+        this.oneInfo = _.cloneDeep( row )
+        this.oneInfo.seEpcProjectTaskInfoList = []
         if ( row.startTime && row.endTime ) {
           this.$set( this.oneInfo, 'value1', [ row.startTime, row.endTime ] )
         }
         this.oneAddDialogVisible = true
-      } else {
+      } else if ( row.taskLevel == 1 ) {
         this.twoTitle = '编辑任务'
-        this.twoInfo = cloneDeep( row )
-        this.twoInfo.id = row.id
+        this.twoInfo = _.cloneDeep( row )
         if ( row.startTime && row.endTime ) {
           this.$set( this.twoInfo, 'value2', [ row.startTime, row.endTime ] )
         }
@@ -375,7 +371,7 @@ export default {
       }
     },
 
-    // 添加/编辑二级任务
+    // 添加二级任务
     handleTwoTime () {
       this.twoInfo.startTime = this.twoInfo.value2[0]
       this.twoInfo.endTime = this.twoInfo.value2[1]
@@ -391,12 +387,40 @@ export default {
             this.getList()
             this.$message.success( res.msg )
             this.twoAddDialogVisible = false
+            this.twoTitle = ''
           })
         }
       })
     },
-    clearAddTwo () {
-      this.$refs.twoRef.resetFields()
+
+    // 清空对话框
+    resetForm(formName) {
+      this.$refs[formName].resetFields()
+       this.oneInfo = {
+        id: undefined,
+        projectId: this.id,
+        taskLevel: 0, // 一级任务
+        wornFlag: 0, // 提醒
+        parentId: 0, // 父
+        taskName: undefined, // 任务名称
+        sortNum: undefined, // 排序
+        startTime: undefined,
+        endTime: undefined,
+        value1: ''
+      }
+
+      this.twoInfo = {
+        id: undefined,
+        projectId: this.id, 
+        parentId: undefined, // 父模板id
+        taskLevel: 1, // 二级任务
+        taskName: undefined, // 任务名称
+        wornFlag: 0, // 是否提醒
+        sortNum: undefined, // 排序
+        startTime: undefined, // 开始时间
+        endTime: undefined, // 结束时间
+        value2: ''
+      }
     },
 
     // 删除任务
@@ -450,9 +474,6 @@ export default {
           })
         }
       })
-    },
-    clearResolve () {
-      this.$refs.resolveRef.resetFields()
     },
     // 激活
     handleActive ( id ) {
