@@ -218,11 +218,11 @@
           <p>已超时任务数</p>
         </div>
         <div>
-          <p style="font-weight:800;font-size:16px;">{{ taskConut.timeOverTask }}</p>
+          <p style="font-weight:800;font-size:16px;">{{ taskConut.timeOverImportantTask }}</p>
           <p>已超时关键任务</p>
         </div>
         <div style="border-right: 1px solid #DCDFE6;">
-          <p style="font-weight:800;font-size:16px;">{{ taskConut.timeOverTask }}</p>
+          <p style="font-weight:800;font-size:16px;">{{ taskConut.timeOverUsualTask }}</p>
           <p>已超时一般任务</p>
         </div>
       </div>

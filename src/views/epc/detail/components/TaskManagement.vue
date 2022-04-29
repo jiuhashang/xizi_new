@@ -15,8 +15,8 @@
     <!-- 列表 -->
     <el-table :data="tableData" v-loading="loading" row-key="id" stripe default-expand-all :tree-props="{children: 'seEpcProjectTaskInfoList', hasChildren: 'hasChildren'}" :header-cell-style="{background:'#eef1f6',color:'#606266'}" size="mini" v-show="label === '列表'">
       <el-table-column prop="taskName" label="任务名称" fixed width="190" />
-      <el-table-column prop="sortNum" label="排序" align="center" width="100" />
-      <el-table-column label="计划日期" align="center" width="180">
+      <el-table-column prop="sortNum" label="排序" align="center" />
+      <el-table-column label="计划日期" align="center" width="210">
         <template slot-scope="scope">
           <span v-if="scope.row.startTime && scope.row.endTime">{{ scope.row.startTime }} 至 {{ scope.row.endTime }}</span>
           <span v-else>-</span>
@@ -33,7 +33,7 @@
           <span v-else> - </span>
         </template>
       </el-table-column>
-      <el-table-column label="完成日期" align="center" width="120">
+      <el-table-column label="完成日期" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.finishTime ? scope.row.finishTime : '-' }}</span>
         </template>
@@ -43,11 +43,22 @@
           <span>{{ scope.row.differenceDay ? scope.row.differenceDay : '-' }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="任务状态" align="center" fixed="right">
+      <el-table-column label="任务状态" align="center">
         <template slot-scope="scope">
           <span v-if="scope.row.status == 1" style="color:#70B603;">进行中</span>
           <span v-else-if="scope.row.status == 2" style="color:#1890FF;">已解决</span>
           <span v-else-if="scope.row.status == 3" style="color:#aaa;">已关闭</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="负责人" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.personUse ? scope.row.personUse : '-' }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="任务级别" align="center">
+        <template slot-scope="scope">
+          <span v-if="scope.row.wornFlag == 1">主要任务</span>
+          <span v-else>一般任务</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" width="210" fixed="right">
@@ -104,22 +115,28 @@
       <div style="padding: 0 20px;">
         <el-form ref="oneRef" :model="oneInfo" :rules="oneRules" label-width="80px" size="mini">
           <el-form-item label="任务名称" prop="taskName">
-            <el-input v-model="oneInfo.taskName" clearable />
+            <el-input v-model="oneInfo.taskName" placeholder="请输入任务名称" clearable />
+          </el-form-item>
+          <el-form-item label="任务级别" prop="wornFlag">
+            <el-select v-model="oneInfo.wornFlag" placeholder="请选择" class="width100">
+              <el-option label="主要任务" :value="1"></el-option>
+              <el-option label="一般任务" :value="0"></el-option>
+            </el-select>
           </el-form-item>
           <el-form-item label="排序" prop="sortNum">
-            <el-input type="number" v-model="oneInfo.sortNum" clearable />
+            <el-input type="number" v-model="oneInfo.sortNum" placeholder="限整数数字" clearable />
           </el-form-item>
-          <el-form-item label="计划日期" prop="value1">
-            <el-date-picker
-              v-model="oneInfo.value1"
-              type="daterange"
-              range-separator="至"
-              start-placeholder="开始日期"
-              end-placeholder="结束日期"
-              value-format="yyyy-MM-dd"
-              @change="handleOneTime"
-              clearable 
-              style="width:100%;" />
+          <el-form-item label="计划开始" prop="startTime">
+            <el-date-picker type="date" placeholder="起始日期" @change="changeStart" v-model="oneInfo.startTime" value-format="yyyy-MM-dd" style="width: 100%;" />
+          </el-form-item>
+          <el-form-item label="计划结束" prop="endTime">
+            <el-date-picker type="date" placeholder="结束日期" @change="changeEnd" v-model="oneInfo.endTime" value-format="yyyy-MM-dd" style="width: 100%;" />
+          </el-form-item>
+          <el-form-item label="总计工期" prop="totalDay">
+            <el-input v-model="oneInfo.totalDay" @input="changeDay" placeholder="限大于 0 整数数字" clearable />
+          </el-form-item>
+          <el-form-item label="负责人姓名" prop="personUse">
+            <el-input v-model="oneInfo.personUse" placeholder="请输入负责人姓名" clearable />
           </el-form-item>
         </el-form>
       </div>
@@ -134,7 +151,13 @@
       <div style="padding: 0 20px;">
         <el-form ref="twoRef" :model="twoInfo" :rules="twoRules" label-width="80px" size="mini">
           <el-form-item label="任务名称" prop="taskName">
-            <el-input v-model="twoInfo.taskName" clearable />
+            <el-input v-model="twoInfo.taskName" placeholder="请输入任务名称" clearable />
+          </el-form-item>
+          <el-form-item label="任务级别" prop="wornFlag">
+            <el-select v-model="twoInfo.wornFlag" placeholder="请选择" class="width100">
+              <el-option label="主要任务" :value="1"></el-option>
+              <el-option label="一般任务" :value="0"></el-option>
+            </el-select>
           </el-form-item>
           <el-form-item label="父级任务" prop="parentId">
             <el-select v-model="twoInfo.parentId" placeholder="请选择" class="width100">
@@ -142,19 +165,19 @@
             </el-select>
           </el-form-item>
           <el-form-item label="排序" prop="sortNum">
-            <el-input type="number" v-model="twoInfo.sortNum" clearable />
+            <el-input type="number" v-model="twoInfo.sortNum" placeholder="限整数数字" clearable />
           </el-form-item>
-          <el-form-item label="计划日期" prop="value2">
-            <el-date-picker
-              v-model="twoInfo.value2"
-              type="daterange"
-              range-separator="至"
-              start-placeholder="开始日期"
-              end-placeholder="结束日期"
-              value-format="yyyy-MM-dd"
-              @change="handleTwoTime" 
-              clearable
-              style="width:100%;" />
+          <el-form-item label="计划开始" prop="startTime">
+            <el-date-picker type="date" placeholder="起始日期" v-model="twoInfo.startTime" value-format="yyyy-MM-dd" style="width: 100%;" />
+          </el-form-item>
+          <el-form-item label="计划结束" prop="endTime">
+            <el-date-picker type="date" placeholder="结束日期" v-model="twoInfo.endTime" value-format="yyyy-MM-dd" style="width: 100%;" />
+          </el-form-item>
+          <el-form-item label="总计工期" prop="totalDay">
+            <el-input v-model="twoInfo.totalDay" placeholder="限大于 0 整数数字" clearable />
+          </el-form-item>
+          <el-form-item label="负责人姓名" prop="personUse">
+            <el-input v-model="twoInfo.personUse" placeholder="请输入负责人姓名" clearable />
           </el-form-item>
         </el-form>
       </div>
@@ -185,6 +208,7 @@ import { getProjectAllTask, addTemplateTask, addProjectTask, deleteTask, closeTa
 import { getList } from '@/api/integrated'
 
 import _ from 'lodash'
+import moment from "moment"
 export default {
   name: 'TaskManagement',
   props: ['id'],
@@ -196,6 +220,14 @@ export default {
         callback()
       } else {
         return callback(new Error('限 0 - 100 整数'))
+      }
+    }
+    var checkBai = (rule, value, callback) => {
+      const reg = /^([1-9]\d?|100)$/
+      if (reg.test(value)) {
+        callback()
+      } else {
+        return callback(new Error('限 1 - 100 整数'))
       }
     }
     return {
@@ -220,21 +252,25 @@ export default {
         id: undefined,
         projectId: this.id,
         taskLevel: 0, // 一级任务
-        wornFlag: 0, // 提醒
         parentId: 0, // 父
         taskName: undefined, // 任务名称
+        wornFlag: undefined, // 任务级别
         sortNum: undefined, // 排序
         startTime: undefined,
         endTime: undefined,
-        value1: ''
+        totalDay: undefined,
+        personUse: undefined
       },
       oneRules: {
         taskName: [
           { required: true, message: '请输入任务名称', trigger: 'blur' },
           { min: 2, max: 50, message: '长度在 2 到 50 个字符', trigger: 'blur' }
         ],
+        wornFlag: [{ required: true, message: '请选择任务级别', trigger: 'change' }],
         sortNum: [{ required: true, validator: check, trigger: 'blur' }],
-        value1: [{ required: true, message: '请选择计划日期', trigger: 'change' }]
+        startTime: [{ required: true, message: '请选择起始日期', trigger: 'change' }],
+        endTime: [{ required: true, message: '请选择结束日期', trigger: 'change' }],
+        totalDay: [{ required: true, validator: checkBai, trigger: 'blur' }]
       },
       
 
@@ -247,20 +283,24 @@ export default {
         parentId: undefined, // 父模板id
         taskLevel: 1, // 二级任务
         taskName: undefined, // 任务名称
-        wornFlag: 0, // 是否提醒
+        wornFlag: undefined, // 任务级别
         sortNum: undefined, // 排序
         startTime: undefined, // 开始时间
         endTime: undefined, // 结束时间
-        value2: ''
+        totalDay: undefined,
+        personUse: undefined
       },
       twoRules: {
         taskName: [
           { required: true, message: '请输入任务名称', trigger: 'blur' },
           { min: 2, max: 50, message: '长度在 2 到 50 个字符', trigger: 'blur' }
         ],
+        wornFlag: [{ required: true, message: '请选择任务级别', trigger: 'change' }],
         parentId: [{ required: true, message: '请选择父级任务', trigger: 'change' }],
         sortNum: [{ required: true, validator: check, trigger: 'blur' }],
-        value2: [{ required: true, message: '请选择计划日期', trigger: 'change' }]
+        startTime: [{ required: true, message: '请选择起始日期', trigger: 'change' }],
+        endTime: [{ required: true, message: '请选择结束日期', trigger: 'change' }],
+        totalDay: [{ required: true, validator: checkBai, trigger: 'blur' }]
       },
       
       // 解决
@@ -330,10 +370,6 @@ export default {
 
     // 添加一级任务
     // 转换一级任务时间
-    handleOneTime () {
-      this.oneInfo.startTime = this.oneInfo.value1[0]
-      this.oneInfo.endTime = this.oneInfo.value1[1]
-    },
     // 添加对话框
     handleAddOne () {
       this.oneTitle = '添加一级任务'
@@ -357,25 +393,15 @@ export default {
         this.oneTitle = '编辑任务'
         this.oneInfo = _.cloneDeep( row )
         this.oneInfo.seEpcProjectTaskInfoList = []
-        if ( row.startTime && row.endTime ) {
-          this.$set( this.oneInfo, 'value1', [ row.startTime, row.endTime ] )
-        }
         this.oneAddDialogVisible = true
       } else if ( row.taskLevel == 1 ) {
         this.twoTitle = '编辑任务'
         this.twoInfo = _.cloneDeep( row )
-        if ( row.startTime && row.endTime ) {
-          this.$set( this.twoInfo, 'value2', [ row.startTime, row.endTime ] )
-        }
         this.twoAddDialogVisible = true
       }
     },
 
     // 添加二级任务
-    handleTwoTime () {
-      this.twoInfo.startTime = this.twoInfo.value2[0]
-      this.twoInfo.endTime = this.twoInfo.value2[1]
-    },
     handleAddTwo () {
       this.twoTitle = '添加二级任务'
       this.twoAddDialogVisible = true
@@ -400,13 +426,14 @@ export default {
         id: undefined,
         projectId: this.id,
         taskLevel: 0, // 一级任务
-        wornFlag: 0, // 提醒
         parentId: 0, // 父
         taskName: undefined, // 任务名称
+        wornFlag: undefined, // 任务级别
         sortNum: undefined, // 排序
         startTime: undefined,
         endTime: undefined,
-        value1: ''
+        totalDay: undefined,
+        personUse: undefined
       }
 
       this.twoInfo = {
@@ -415,11 +442,12 @@ export default {
         parentId: undefined, // 父模板id
         taskLevel: 1, // 二级任务
         taskName: undefined, // 任务名称
-        wornFlag: 0, // 是否提醒
+        wornFlag: undefined, // 任务级别
         sortNum: undefined, // 排序
         startTime: undefined, // 开始时间
         endTime: undefined, // 结束时间
-        value2: ''
+        totalDay: undefined,
+        personUse: undefined
       }
     },
 
@@ -493,28 +521,65 @@ export default {
         })       
       })
     },
+
+    changeStart () {
+      if ( this.oneInfo.startTime && this.oneInfo.endTime ) {
+        this.oneInfo.totalDay = this.datedifference( this.oneInfo.startTime, this.oneInfo.endTime )
+      }
+    },
+    changeEnd () {
+      if ( this.oneInfo.startTime && this.oneInfo.endTime ) {
+        this.oneInfo.totalDay = this.datedifference( this.oneInfo.startTime, this.oneInfo.endTime )
+      }
+      if ( this.oneInfo.totalDay && this.oneInfo.endTime) {
+        let day2 = parseInt (this.oneInfo.totalDay)
+        this.oneInfo.startTime = this.subCount( this.oneInfo.endTime, day2)
+      }
+    },
+    changeDay () {
+      if ( this.oneInfo.totalDay && this.oneInfo.startTime) {
+        let day2 = this.oneInfo.totalDay -1
+        this.oneInfo.endTime = this.addCount( this.oneInfo.startTime, day2)
+      }
+      if ( this.oneInfo.totalDay && this.oneInfo.endTime) {
+        let day2 = parseInt (this.oneInfo.totalDay)
+        this.oneInfo.startTime = this.subCount( this.oneInfo.endTime, day2)
+      }
+    },
+
     // 剩余工期
     shengyu ( a ) {
       let t = Date.parse( new Date( a ) )
       let now = new Date().toLocaleDateString()
-
       if ( t + 86400000 < Date.now() ) {
         return ' - '
       } else {
         return this.datedifference( now, a ) + 1
       }
     },
-    datedifference(sDate1, sDate2) {    //sDate1和sDate2是2006-12-18格式 
-      var dateSpan,
-          tempDate,
-          iDays;
-        sDate1 = Date.parse(sDate1);
-        sDate2 = Date.parse(sDate2);
-        dateSpan = sDate2 - sDate1;
-        dateSpan = Math.abs(dateSpan);
-        iDays = Math.floor(dateSpan / (24 * 3600 * 1000))
-      return iDays
+    datedifference ( sDate1, sDate2 ) {    //sDate1和sDate2是2006-12-18格式 
+      var dateSpan, iDays;
+        sDate1 = Date.parse( sDate1 )
+        sDate2 = Date.parse( sDate2 )
+        dateSpan = sDate2 - sDate1
+        dateSpan = Math.abs( dateSpan )
+        iDays = Math.floor( dateSpan / ( 24 * 3600 * 1000 ) )
+      return iDays + 1
+    },
+    addCount ( sDate, day ) {
+      return moment(sDate).add(day, 'days').calendar()
+    },
+    subCount ( sDate, day ) {
+      return moment(sDate).subtract(day, 'days').calendar()
     }
+  },
+  watch: {
+    'oneInfo.startTime': function ( newVal, oldVal ) {
+    },
+    'oneInfo.endTime': function ( newVal, oldVal ) {
+    },
+    'oneInfo.totalDay': function ( newVal, oldVal ) {
+    },
   }
 }
 </script>

@@ -137,7 +137,6 @@
     <el-card>
       <div slot="header">
         <span style="font-weight:800;font-size:13px;">项目列表</span>
-        <!-- <el-button type="primary" size="mini" style="float: right;" @click="handleRegister">立项登记</el-button> -->
       </div>
       <div>
         <div v-if="list.length" >
@@ -161,60 +160,58 @@
               </div>
             </div>
             <div class="bottom">
-              <div class="left">
-                <el-row :gutter="20" class="mb10">
-                  <el-col :span="6">
-                    <span class="mr10">项目来源</span>
-                    <span v-show="item.projectSource == 0">自主投资</span>
-                    <span v-show="item.projectSource == 1">EPC项目</span>
-                    <span v-show="item.projectSource == 9">其他项目</span>
-                  </el-col>
-                  <el-col :span="6">
-                    <span class="mr10">优先级别</span>
-                    <span v-show="item.firstLevel == 0">低</span>
-                    <span v-show="item.firstLevel == 1">中</span>
-                    <span v-show="item.firstLevel == 2">高</span>
-                  </el-col>
-                  <el-col :span="6">
-                    <span class="mr10">项目经理</span>
-                    <span>{{ item.nickName ? item.nickName : '-' }}</span>
-                  </el-col>
-                  <el-col :span="6">
-                    <span class="mr10">关键任务</span>
-                  </el-col>
-                </el-row>
-                <el-row :gutter="20">
-                  <el-col :span="6">
-                    <span class="mr10">项目类型</span>
-                    <span v-show="item.projectType == 0">分布式项目</span>
-                  </el-col>
-                  <el-col :span="6">
-                    <span class="mr10">紧急程度</span>
-                    <span v-show="item.urgentLevel == 0">一般</span>
-                    <span v-show="item.urgentLevel == 1">紧急</span>
-                    <span v-show="item.urgentLevel == 2">非常紧急</span>
-                  </el-col>
-                  <el-col :span="6">
-                    <span class="mr10" style="margin-left:12px;">里程碑</span>
-                    <span v-show="item.selfAccessProgress == 0">起始阶段</span>
-                    <span v-show="item.selfAccessProgress == 1">接入方案</span>
-                    <span v-show="item.selfAccessProgress == 2">初设完成</span>
-                    <span v-show="item.selfAccessProgress == 3">施工进场</span>
-                    <span v-show="item.selfAccessProgress == 4">并网完成</span>
-                    <span v-show="item.selfAccessProgress == 5">竣工验收</span>
-                  </el-col>
-                  <el-col :span="6">
-                    <span class="mr10">一般任务</span>
-                  </el-col>
-                </el-row>
-              </div>
-              <div class="right">
-                <div class="f"> 
-                  <span class="mr10">时间进度</span>
-                  <el-progress :percentage="item.timeProgress" style="width:70%;margin-top:2px;" v-if="item.timeProgress !== null" />
+              <el-row :gutter="20" class="mb10" style="padding-left:25px;">
+                <el-col :span="4">
+                  <span class="mr10">项目来源</span>
+                  <span v-show="item.projectSource == 0">自主投资</span>
+                  <span v-show="item.projectSource == 1">EPC项目</span>
+                  <span v-show="item.projectSource == 9">其他项目</span>
+                </el-col>
+                <el-col :span="4">
+                  <span class="mr10">优先级别</span>
+                  <span v-show="item.firstLevel == 0">低</span>
+                  <span v-show="item.firstLevel == 1">中</span>
+                  <span v-show="item.firstLevel == 2">高</span>
+                </el-col>
+                <el-col :span="4">
+                  <span class="mr10">项目经理</span>
+                  <span>{{ item.nickName ? item.nickName : '-' }}</span>
+                </el-col>
+                <el-col :span="4">
+                  <span class="mr10">关键任务</span>
+                  <span class="el-icon-success" style="color: green;font-size:14px;"></span>
+                </el-col>
+                <el-col :span="8">
+                  <span style="margin-left: 70px;margin-right:10px;">时间进度</span>
+                  <el-progress :percentage="item.timeProgress" style="width:60%;margin-top:2px;" v-if="item.timeProgress !== null" />
                   <span v-else>-</span>
-                </div>
-              </div>
+                </el-col>
+              </el-row>
+              <el-row :gutter="20" style="padding-left:25px;">
+                <el-col :span="4">
+                  <span class="mr10">项目类型</span>
+                  <span v-show="item.projectType == 0">分布式项目</span>
+                </el-col>
+                <el-col :span="4">
+                  <span class="mr10">紧急程度</span>
+                  <span v-show="item.urgentLevel == 0">一般</span>
+                  <span v-show="item.urgentLevel == 1">紧急</span>
+                  <span v-show="item.urgentLevel == 2">非常紧急</span>
+                </el-col>
+                <el-col :span="4">
+                  <span class="mr10" style="margin-right:32px;">里程碑</span>
+                  <span v-show="item.selfAccessProgress == 0">起始阶段</span>
+                  <span v-show="item.selfAccessProgress == 1">接入方案</span>
+                  <span v-show="item.selfAccessProgress == 2">初设完成</span>
+                  <span v-show="item.selfAccessProgress == 3">施工进场</span>
+                  <span v-show="item.selfAccessProgress == 4">并网完成</span>
+                  <span v-show="item.selfAccessProgress == 5">竣工验收</span>
+                </el-col>
+                <el-col :span="4">
+                  <span class="mr10">一般任务</span>
+                  <span class="el-icon-warning" style="color:red;font-size:14px;"></span>
+                </el-col>
+              </el-row>
             </div>
           </div>
         </div>
@@ -231,7 +228,7 @@
 <script>
 import { getList } from '@/api/epc'
 export default {
-  name: 'All',
+  name: 'My',
   data() {
     return {
       tableInfo: {
@@ -298,9 +295,6 @@ export default {
     handleShow () {
       this.isShow = !this.isShow
     },
-    handleRegister () {
-      this.$router.push({ name: 'Register' })
-    },
     handleDetail ( id ) {
       this.$router.push({ name: 'Detail', query: { id } })
     },
@@ -322,9 +316,10 @@ export default {
   font-size: 12px;
   border: 1px solid #DCDFE6;
   &:hover {
-    border-color: black;
+    // border-color: black;
     cursor: pointer;
     border-radius: 3px;
+    box-shadow: 0px 0px 5px 5px #aaa;
     }
   .top {
     display: flex;
@@ -338,27 +333,14 @@ export default {
     }
   }
   .bottom {
-    border: 1px solid #DCDFE6;
+    border-top: 1px solid #DCDFE6;
     border-bottom-left-radius: 3px;
     border-bottom-right-radius: 3px;
     padding: 15px 0;
-    display: flex;
-    justify-content: space-between;
-    .left {
-      width: 65%;
-      padding-left: 20px;
-    }
-    .right {
-      width: 35%;
-      .f {
-        display: flex;
-        justify-content: flex-end;
-      }
-    }
   }
 }
 .mr10 {
-  margin-right: 10px;
+  margin-right: 20px;
   color: #aaa;
 }
 .mb10 {
@@ -368,6 +350,9 @@ export default {
   font-size: 12px;
 }
 /deep/ .el-progress__text {
-  margin-top: -4px;
+  margin-top: -2px;
+}
+.el-progress {
+  display: inline-block;
 }
 </style>

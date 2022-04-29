@@ -32,7 +32,7 @@
     <el-table :data="tableData" v-loading="loading" stripe :header-cell-style="{background:'#eef1f6',color:'#606266'}" size="mini">
       <el-table-column label="图纸名称">
         <template slot-scope="scope"> 
-          <el-button type="text" @click="handleDown(scope.row.imageUrl)">{{ scope.row.imageName }}</el-button>
+          <el-link type="primary" @click="handleDown(scope.row.imageUrl)">{{ scope.row.imageName }}</el-link>
         </template>
       </el-table-column>
       <el-table-column label="文件大小">
