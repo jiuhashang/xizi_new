@@ -200,3 +200,100 @@ export function getEpcProjectCount ( params ) {
     params
   })
 }
+
+//
+// 汇报信息
+export function getEpcProjecReportInfo ( params ) {
+  return request({
+    url: '/admin/seEpcProjectReportInfo/getList',
+    method: 'get',
+    params
+  })
+}
+
+// 添加汇报
+export function addReportInfo ( params ) {
+  return request.post('/admin/seEpcProjectReportInfo/addOrUpdateOne', 
+  params
+  )
+}
+
+// 删除
+export function deleteReportInfo ( params ) {
+  return request({
+    url: '/admin/seEpcProjectReportInfo/deleteOne',
+    method: 'get',
+    params
+  })
+}
+
+// 会议纪要
+// 获取会议纪要列表
+export function getEpcProjectMeetingInfo ( params ) {
+  return request({
+    url: '/admin/seEpcProjectMeetingInfo/getList',
+    method: 'get',
+    params
+  })
+}
+
+// 添加会议
+export function addMeetingInfo ( params ) {
+  return request.post('/admin/seEpcProjectMeetingInfo/addOrUpdateOne', 
+  params
+  )
+}
+
+// 删除
+export function deleteMeetingInfo ( params ) {
+  return request({
+    url: '/admin/seEpcProjectMeetingInfo/deleteOne',
+    method: 'get',
+    params
+  })
+}
+
+// 保险
+// 获取保险列表
+export function getSafeInfo ( params ) {
+  return request({
+    url: '/admin/seEpcProjectSafeInfo/getList',
+    method: 'get',
+    params
+  })
+}
+
+// 添加修改
+export function addSafeInfo ( params ) {
+  return request.post('/admin/seEpcProjectSafeInfo/addOrUpdateOne', 
+  params
+  )
+}
+
+// 删除
+export function deleteSafeInfo ( params ) {
+  return request({
+    url: '/admin/seEpcProjectSafeInfo/deleteOne',
+    method: 'get',
+    params
+  })
+}
+
+// 保险修改提醒
+export function editWornFlag ( params ) {
+  return request({
+    url: '/admin/seEpcProjectSafeInfo/editWornFlag',
+    method: 'get',
+    params
+  })
+}
+
+// 变更记录
+// 获取变更记录列表
+export function getEditLog ( params ) {
+  return request({
+    url: '/admin/seEpcProjectEditLog/getList',
+    method: 'get',
+    params
+  })
+}

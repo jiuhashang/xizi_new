@@ -42,7 +42,7 @@
       </el-table-column>
       <el-table-column prop="createUserName" label="上传人" />
       <el-table-column prop="createTime" label="上传时间" />
-      <el-table-column label="操作">
+      <el-table-column label="操作" width="100">
         <template slot-scope="scope">
           <el-button type="text" style="color:red;" @click="handleRemove(scope.row.id)">删除</el-button>
         </template>
@@ -52,7 +52,7 @@
 
     <!-- 上传图纸 -->
     <el-dialog title="上传图纸" :visible.sync="dialogVisible" :close-on-click-modal="false" width="40%" @close="clear">
-      <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" size="mini">
+      <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" size="mini" style="width:95%;">
         <el-form-item label="文件名称" prop="imageName">
           <el-input v-model="ruleForm.imageName"></el-input>
         </el-form-item>

@@ -127,10 +127,10 @@
             <el-input type="number" v-model="oneInfo.sortNum" placeholder="限整数数字" clearable />
           </el-form-item>
           <el-form-item label="计划开始" prop="startTime">
-            <el-date-picker type="date" placeholder="起始日期" @change="changeStart" v-model="oneInfo.startTime" value-format="yyyy-MM-dd" style="width: 100%;" />
+            <el-date-picker type="date" placeholder="起始日期" @change="changeStart" v-model="oneInfo.startTime" value-format="yyyy-MM-dd" :picker-options="pickerOptionsOneStart" style="width: 100%;" />
           </el-form-item>
           <el-form-item label="计划结束" prop="endTime">
-            <el-date-picker type="date" placeholder="结束日期" @change="changeEnd" v-model="oneInfo.endTime" value-format="yyyy-MM-dd" style="width: 100%;" />
+            <el-date-picker type="date" placeholder="结束日期" @change="changeEnd" v-model="oneInfo.endTime" value-format="yyyy-MM-dd" :picker-options="pickerOptionsOneEnd" style="width: 100%;" />
           </el-form-item>
           <el-form-item label="总计工期" prop="totalDay">
             <el-input v-model="oneInfo.totalDay" @input="changeDay" placeholder="限大于 0 整数数字" clearable />
@@ -168,10 +168,10 @@
             <el-input type="number" v-model="twoInfo.sortNum" placeholder="限整数数字" clearable />
           </el-form-item>
           <el-form-item label="计划开始" prop="startTime">
-            <el-date-picker type="date" placeholder="起始日期" v-model="twoInfo.startTime" value-format="yyyy-MM-dd" style="width: 100%;" />
+            <el-date-picker type="date" placeholder="起始日期" v-model="twoInfo.startTime" value-format="yyyy-MM-dd" :picker-options="pickerOptionsTwoStart" style="width: 100%;" />
           </el-form-item>
           <el-form-item label="计划结束" prop="endTime">
-            <el-date-picker type="date" placeholder="结束日期" v-model="twoInfo.endTime" value-format="yyyy-MM-dd" style="width: 100%;" />
+            <el-date-picker type="date" placeholder="结束日期" v-model="twoInfo.endTime" value-format="yyyy-MM-dd" :picker-options="pickerOptionsTwoEnd" style="width: 100%;" />
           </el-form-item>
           <el-form-item label="总计工期" prop="totalDay">
             <el-input v-model="twoInfo.totalDay" placeholder="限大于 0 整数数字" clearable />
@@ -272,7 +272,26 @@ export default {
         endTime: [{ required: true, message: '请选择结束日期', trigger: 'change' }],
         totalDay: [{ required: true, validator: checkBai, trigger: 'blur' }]
       },
-      
+      // 开始结束日期限制
+      pickerOptionsOneStart: {
+        disabledDate: (time) => {
+          if (this.oneInfo.endTime) {
+            return (
+              time.getTime() >= new Date(this.oneInfo.endTime).getTime()
+            );
+          }
+        }
+      },
+      // 结束日期限制
+      pickerOptionsOneEnd: {
+        disabledDate: (time) => {
+          if (this.oneInfo.startTime) {
+            return (
+              time.getTime() <= new Date(this.oneInfo.startTime).getTime()
+            );
+          }
+        }
+      },
 
       // 添加/编辑二级任务
       twoAddDialogVisible: false,
@@ -301,6 +320,26 @@ export default {
         startTime: [{ required: true, message: '请选择起始日期', trigger: 'change' }],
         endTime: [{ required: true, message: '请选择结束日期', trigger: 'change' }],
         totalDay: [{ required: true, validator: checkBai, trigger: 'blur' }]
+      },
+      // 开始结束日期限制
+      pickerOptionsTwoStart: {
+        disabledDate: (time) => {
+          if (this.twoInfo.endTime) {
+            return (
+              time.getTime() >= new Date(this.twoInfo.endTime).getTime()
+            );
+          }
+        }
+      },
+      // 结束日期限制
+      pickerOptionsTwoEnd: {
+        disabledDate: (time) => {
+          if (this.twoInfo.startTime) {
+            return (
+              time.getTime() <= new Date(this.twoInfo.startTime).getTime()
+            );
+          }
+        }
       },
       
       // 解决
@@ -522,42 +561,17 @@ export default {
       })
     },
 
-    changeStart () {
-      if ( this.oneInfo.startTime && this.oneInfo.endTime ) {
-        this.oneInfo.totalDay = this.datedifference( this.oneInfo.startTime, this.oneInfo.endTime )
-      }
-    },
-    changeEnd () {
-      if ( this.oneInfo.startTime && this.oneInfo.endTime ) {
-        this.oneInfo.totalDay = this.datedifference( this.oneInfo.startTime, this.oneInfo.endTime )
-      }
-      if ( this.oneInfo.totalDay && this.oneInfo.endTime) {
-        let day2 = parseInt (this.oneInfo.totalDay)
-        this.oneInfo.startTime = this.subCount( this.oneInfo.endTime, day2)
-      }
-    },
-    changeDay () {
-      if ( this.oneInfo.totalDay && this.oneInfo.startTime) {
-        let day2 = this.oneInfo.totalDay -1
-        this.oneInfo.endTime = this.addCount( this.oneInfo.startTime, day2)
-      }
-      if ( this.oneInfo.totalDay && this.oneInfo.endTime) {
-        let day2 = parseInt (this.oneInfo.totalDay)
-        this.oneInfo.startTime = this.subCount( this.oneInfo.endTime, day2)
-      }
-    },
-
     // 剩余工期
     shengyu ( a ) {
       let t = Date.parse( new Date( a ) )
       let now = new Date().toLocaleDateString()
       if ( t + 86400000 < Date.now() ) {
-        return ' - '
+        return '已延期'
       } else {
-        return this.datedifference( now, a ) + 1
+        return this.datedifference( now, a )
       }
     },
-    datedifference ( sDate1, sDate2 ) {    //sDate1和sDate2是2006-12-18格式 
+    datedifference ( sDate1, sDate2 ) { // 计算总计   //sDate1和sDate2是2006-12-18格式 
       var dateSpan, iDays;
         sDate1 = Date.parse( sDate1 )
         sDate2 = Date.parse( sDate2 )
@@ -566,20 +580,80 @@ export default {
         iDays = Math.floor( dateSpan / ( 24 * 3600 * 1000 ) )
       return iDays + 1
     },
-    addCount ( sDate, day ) {
-      return moment(sDate).add(day, 'days').calendar()
+    addCount ( sDate, day ) { // 计算结束
+      return moment(sDate).add(day, 'days').format('YYYY-MM-DD')
     },
-    subCount ( sDate, day ) {
-      return moment(sDate).subtract(day, 'days').calendar()
+    subCount ( sDate, day ) { // 计算开始
+      return moment(sDate).subtract(day, 'days').format('YYYY-MM-DD')
     }
   },
   watch: {
     'oneInfo.startTime': function ( newVal, oldVal ) {
+      if (newVal && this.oneInfo.endTime) {
+        this.oneInfo.totalDay = this.datedifference( newVal, this.oneInfo.endTime )
+        return
+      }
+      if (newVal && this.oneInfo.totalDay) {
+        this.oneInfo.endTime = this.addCount( newVal, this.oneInfo.totalDay)
+        return
+      }
     },
     'oneInfo.endTime': function ( newVal, oldVal ) {
+      if (this.oneInfo.startTime && newVal) {
+        this.oneInfo.totalDay = this.datedifference( this.oneInfo.startTime, newVal )
+        return
+      }
+      if (this.oneInfo.totalDay && newVal) {
+        this.oneInfo.startTime = this.subCount( newVal, this.oneInfo.totalDay)
+        return
+      }
     },
     'oneInfo.totalDay': function ( newVal, oldVal ) {
+      if (newVal && this.oneInfo.startTime) {
+        let day2 = newVal -1
+        this.oneInfo.endTime = this.addCount( this.oneInfo.startTime, day2)
+        return
+      }
+      if (newVal && this.oneInfo.endTime) {
+        let day2 = parseInt (this.oneInfo.totalDay)
+        this.oneInfo.startTime = this.subCount( this.oneInfo.endTime, day2)
+        return
+      }
     },
+
+    'twoInfo.startTime': function ( newVal, oldVal ) {
+      if (newVal && this.twoInfo.endTime) {
+        this.twoInfo.totalDay = this.datedifference( newVal, this.twoInfo.endTime )
+        return
+      }
+      if (newVal && this.twoInfo.totalDay) {
+        this.twoInfo.endTime = this.addCount( newVal, this.twoInfo.totalDay)
+        return
+      }
+    },
+    'twoInfo.endTime': function ( newVal, oldVal ) {
+      // console.log(this.compareDate(this.oneInfo.startTime, newVal))
+      if (this.twoInfo.startTime && newVal) {
+        this.twoInfo.totalDay = this.datedifference( this.twoInfo.startTime, newVal )
+        return
+      }
+      if (this.twoInfo.totalDay && newVal) {
+        this.twoInfo.startTime = this.subCount( newVal, this.twoInfo.totalDay)
+        return
+      }
+    },
+    'twoInfo.totalDay': function ( newVal, oldVal ) {
+      if (newVal && this.twoInfo.startTime) {
+        let day2 = newVal -1
+        this.twoInfo.endTime = this.addCount( this.twoInfo.startTime, day2)
+        return
+      }
+      if (newVal && this.twoInfo.endTime) {
+        let day2 = parseInt (this.twoInfo.totalDay)
+        this.twoInfo.startTime = this.subCount( this.twoInfo.endTime, day2)
+        return
+      }
+    }
   }
 }
 </script>

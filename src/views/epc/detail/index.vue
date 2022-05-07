@@ -55,27 +55,27 @@
       <el-tab-pane label="项目概况" name="1">
         <ProjectOverview :detailInfo="detailInfo" :taskConut="taskConut" @update="updateProgress" />
       </el-tab-pane>
-      <!-- <el-tab-pane label="变更记录" name="2">
-        <ChangeRecord />
-      </el-tab-pane> -->
+      <el-tab-pane label="变更记录" name="2">
+        <ChangeRecord :id="id" ref="changeRecord" />
+      </el-tab-pane>
       <el-tab-pane label="任务管理" name="3">
         <TaskManagement :id="id" />
       </el-tab-pane>
       <el-tab-pane label="图纸管理" name="4">
         <DrawingManagement :id="id" />
       </el-tab-pane>
-      <!-- <el-tab-pane label="保险情况" name="5">
-        <InsuranceIs />
-      </el-tab-pane> -->
+      <el-tab-pane label="保险情况" name="5">
+        <InsuranceIs :id="id" />
+      </el-tab-pane>
       <el-tab-pane label="团队成员" name="6">
         <TeamMembers :id="id" @update="updatePerson" />
       </el-tab-pane>
-      <!-- <el-tab-pane label="汇报信息" name="7">
-        <ReportingInfo />
-      </el-tab-pane> -->
-      <!-- <el-tab-pane label="会议纪要" name="8">
-        <MeetingMinutes />
-      </el-tab-pane> -->
+      <el-tab-pane label="汇报信息" name="7">
+        <ReportingInfo :id="id" />
+      </el-tab-pane>
+      <el-tab-pane label="会议纪要" name="8">
+        <MeetingMinutes :id="id" />
+      </el-tab-pane>
       <el-tab-pane label="文件材料" name="9">
         <FileMaterial :id="id" />
       </el-tab-pane>
@@ -117,11 +117,12 @@ export default {
   },
   methods: {
     handleClick ( tab, event ) {
-      // console.log(tab);
       if (tab.index == 0) {
         this.getList()
         this.getEpcEachUser()
         this.getProjectTaskCount()
+      } else if (tab.index == 1) {
+        this.$refs.changeRecord.getList()
       }
     },
     getList () {

@@ -55,7 +55,7 @@ export default {
         this.loading = true
         login (this.form).then(res => {
           if(res.code == 0) {
-            console.log(res)
+            // console.log(res)
             this.loading = false
             this.$message.success('登录成功')
             window.sessionStorage.setItem('token', res.data.token)
