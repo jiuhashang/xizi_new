@@ -70,7 +70,7 @@
         <el-table-column prop="projectName" label="项目名称" />
         <el-table-column prop="companyName" label="公司名称" />
         <el-table-column prop="createTime" label="创建时间" />
-        <el-table-column label="当前进度">
+        <el-table-column label="当前进度" width="100">
           <template slot-scope="scope">
             <span v-if="scope.row.status == 0 || scope.row.status == 2">待录入</span>
             <span v-else-if="scope.row.status == 1">初审审核</span>

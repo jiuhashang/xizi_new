@@ -42,7 +42,7 @@
             <span v-show="scope.row.downFlag == 1">已开通</span>
           </template>
         </el-table-column>
-        <el-table-column label="其他">
+        <el-table-column label="其他" width="220">
           <template slot-scope="scope">
             <el-button type="text" @click="handlePermission(scope.row)">权限管理</el-button>
             <el-button type="text" @click="handleExtend(scope.row)">延长时间</el-button>

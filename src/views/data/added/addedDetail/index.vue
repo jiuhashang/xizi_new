@@ -73,7 +73,7 @@
         <el-row :gutter="20">
           <el-col>
             <el-form-item label="项目发起额外说明">
-              <el-input type="textarea" autosize v-model="seProjectRelevantFile.projectOtherMessage" placeholder="请输入" maxlength="200" show-word-limit></el-input>
+              <el-input type="textarea" autosize v-model="seProjectRelevantFile.projectOtherMessage" placeholder="请输入" maxlength="200"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -125,7 +125,7 @@
         <el-row :gutter="20">
           <el-col>
             <el-form-item label="补充说明">
-              <el-input type="textarea" autosize v-model="seProjectEndSupplementFile.otherMessage" placeholder="请输入" maxlength="200" show-word-limit></el-input>
+              <el-input type="textarea" autosize v-model="seProjectEndSupplementFile.otherMessage" placeholder="请输入" maxlength="200"></el-input>
             </el-form-item>
           </el-col>
         </el-row>

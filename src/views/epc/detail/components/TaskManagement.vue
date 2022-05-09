@@ -2,7 +2,7 @@
   <!-- 任务管理 -->
   <el-card>
     <div class="top">
-      <el-radio-group v-model="label" size="mini" style="margin-bottom:15px;">
+      <el-radio-group v-model="label" size="mini">
         <el-radio-button label="列表"></el-radio-button>
         <el-radio-button label="视图" disabled></el-radio-button>
       </el-radio-group>
@@ -29,7 +29,7 @@
       </el-table-column>
       <el-table-column label="剩余工期" align="center">
         <template slot-scope="scope">
-          <span v-if="scope.row.status != 3">{{ shengyu( scope.row.endTime ) }}</span>
+          <span v-if="scope.row.status != 3 && scope.row.status != 2">{{ scope.row.endTime ? shengyu(scope.row.endTime) : ' - ' }}</span>
           <span v-else> - </span>
         </template>
       </el-table-column>
@@ -112,34 +112,32 @@
 
     <!-- 添加/编辑一级任务 -->
     <el-dialog :title="oneTitle" :visible.sync="oneAddDialogVisible" :close-on-click-modal="false" width="40%" @close="resetForm('oneRef')">
-      <div style="padding: 0 20px;">
-        <el-form ref="oneRef" :model="oneInfo" :rules="oneRules" label-width="80px" size="mini">
-          <el-form-item label="任务名称" prop="taskName">
-            <el-input v-model="oneInfo.taskName" placeholder="请输入任务名称" clearable />
-          </el-form-item>
-          <el-form-item label="任务级别" prop="wornFlag">
-            <el-select v-model="oneInfo.wornFlag" placeholder="请选择" class="width100">
-              <el-option label="主要任务" :value="1"></el-option>
-              <el-option label="一般任务" :value="0"></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="排序" prop="sortNum">
-            <el-input type="number" v-model="oneInfo.sortNum" placeholder="限整数数字" clearable />
-          </el-form-item>
-          <el-form-item label="计划开始" prop="startTime">
-            <el-date-picker type="date" placeholder="起始日期" @change="changeStart" v-model="oneInfo.startTime" value-format="yyyy-MM-dd" :picker-options="pickerOptionsOneStart" style="width: 100%;" />
-          </el-form-item>
-          <el-form-item label="计划结束" prop="endTime">
-            <el-date-picker type="date" placeholder="结束日期" @change="changeEnd" v-model="oneInfo.endTime" value-format="yyyy-MM-dd" :picker-options="pickerOptionsOneEnd" style="width: 100%;" />
-          </el-form-item>
-          <el-form-item label="总计工期" prop="totalDay">
-            <el-input v-model="oneInfo.totalDay" @input="changeDay" placeholder="限大于 0 整数数字" clearable />
-          </el-form-item>
-          <el-form-item label="负责人姓名" prop="personUse">
-            <el-input v-model="oneInfo.personUse" placeholder="请输入负责人姓名" clearable />
-          </el-form-item>
-        </el-form>
-      </div>
+      <el-form ref="oneRef" :model="oneInfo" :rules="oneRules" label-width="100px" size="mini" class="width95">
+        <el-form-item label="任务名称" prop="taskName">
+          <el-input v-model="oneInfo.taskName" placeholder="请输入任务名称" clearable />
+        </el-form-item>
+        <el-form-item label="任务级别" prop="wornFlag">
+          <el-select v-model="oneInfo.wornFlag" placeholder="请选择" class="width100">
+            <el-option label="主要任务" :value="1"></el-option>
+            <el-option label="一般任务" :value="0"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="排序" prop="sortNum">
+          <el-input type="number" v-model="oneInfo.sortNum" placeholder="限整数数字" clearable />
+        </el-form-item>
+        <el-form-item label="计划开始" prop="startTime">
+          <el-date-picker type="date" placeholder="起始日期" v-model="oneInfo.startTime" format="yyyy-MM-dd" value-format="yyyy-MM-dd" :picker-options="pickerOptionsOneStart" style="width: 100%;" />
+        </el-form-item>
+        <el-form-item label="计划结束" prop="endTime">
+          <el-date-picker type="date" placeholder="结束日期" v-model="oneInfo.endTime" format="yyyy-MM-dd" value-format="yyyy-MM-dd" :picker-options="pickerOptionsOneEnd" style="width: 100%;" />
+        </el-form-item>
+        <el-form-item label="总计工期" prop="totalDay">
+          <el-input v-model="oneInfo.totalDay" @input="changeDay" placeholder="限大于 0 整数数字" clearable />
+        </el-form-item>
+        <el-form-item label="负责人姓名" prop="personUse">
+          <el-input v-model="oneInfo.personUse" placeholder="请输入负责人姓名" clearable />
+        </el-form-item>
+      </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="oneAddDialogVisible = false" size="mini">取 消</el-button>
         <el-button type="primary" @click="handleAddOneTask" size="mini">确 定</el-button>
@@ -148,39 +146,37 @@
 
     <!-- 添加/编辑二级任务 -->
     <el-dialog :title="twoTitle" :visible.sync="twoAddDialogVisible" :close-on-click-modal="false" width="40%"  @close="resetForm('twoRef')">
-      <div style="padding: 0 20px;">
-        <el-form ref="twoRef" :model="twoInfo" :rules="twoRules" label-width="80px" size="mini">
-          <el-form-item label="任务名称" prop="taskName">
-            <el-input v-model="twoInfo.taskName" placeholder="请输入任务名称" clearable />
-          </el-form-item>
-          <el-form-item label="任务级别" prop="wornFlag">
-            <el-select v-model="twoInfo.wornFlag" placeholder="请选择" class="width100">
-              <el-option label="主要任务" :value="1"></el-option>
-              <el-option label="一般任务" :value="0"></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="父级任务" prop="parentId">
-            <el-select v-model="twoInfo.parentId" placeholder="请选择" class="width100">
-              <el-option :label="item.taskName" :value="item.id" v-for="item in tableData" :key="item.id"></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="排序" prop="sortNum">
-            <el-input type="number" v-model="twoInfo.sortNum" placeholder="限整数数字" clearable />
-          </el-form-item>
-          <el-form-item label="计划开始" prop="startTime">
-            <el-date-picker type="date" placeholder="起始日期" v-model="twoInfo.startTime" value-format="yyyy-MM-dd" :picker-options="pickerOptionsTwoStart" style="width: 100%;" />
-          </el-form-item>
-          <el-form-item label="计划结束" prop="endTime">
-            <el-date-picker type="date" placeholder="结束日期" v-model="twoInfo.endTime" value-format="yyyy-MM-dd" :picker-options="pickerOptionsTwoEnd" style="width: 100%;" />
-          </el-form-item>
-          <el-form-item label="总计工期" prop="totalDay">
-            <el-input v-model="twoInfo.totalDay" placeholder="限大于 0 整数数字" clearable />
-          </el-form-item>
-          <el-form-item label="负责人姓名" prop="personUse">
-            <el-input v-model="twoInfo.personUse" placeholder="请输入负责人姓名" clearable />
-          </el-form-item>
-        </el-form>
-      </div>
+      <el-form ref="twoRef" :model="twoInfo" :rules="twoRules" label-width="100px" size="mini" class="width95">
+        <el-form-item label="任务名称" prop="taskName">
+          <el-input v-model="twoInfo.taskName" placeholder="请输入任务名称" clearable />
+        </el-form-item>
+        <el-form-item label="任务级别" prop="wornFlag">
+          <el-select v-model="twoInfo.wornFlag" placeholder="请选择" class="width100">
+            <el-option label="主要任务" :value="1"></el-option>
+            <el-option label="一般任务" :value="0"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="父级任务" prop="parentId">
+          <el-select v-model="twoInfo.parentId" placeholder="请选择" class="width100">
+            <el-option :label="item.taskName" :value="item.id" v-for="item in tableData" :key="item.id"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="排序" prop="sortNum">
+          <el-input type="number" v-model="twoInfo.sortNum" placeholder="限整数数字" clearable />
+        </el-form-item>
+        <el-form-item label="计划开始" prop="startTime">
+          <el-date-picker type="date" placeholder="起始日期" v-model="twoInfo.startTime" value-format="yyyy-MM-dd" :picker-options="pickerOptionsTwoStart" style="width: 100%;" />
+        </el-form-item>
+        <el-form-item label="计划结束" prop="endTime">
+          <el-date-picker type="date" placeholder="结束日期" v-model="twoInfo.endTime" value-format="yyyy-MM-dd" :picker-options="pickerOptionsTwoEnd" style="width: 100%;" />
+        </el-form-item>
+        <el-form-item label="总计工期" prop="totalDay">
+          <el-input v-model="twoInfo.totalDay" placeholder="限大于 0 整数数字" clearable />
+        </el-form-item>
+        <el-form-item label="负责人姓名" prop="personUse">
+          <el-input v-model="twoInfo.personUse" placeholder="请输入负责人姓名" clearable />
+        </el-form-item>
+      </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="twoAddDialogVisible = false" size="mini">取 消</el-button>
         <el-button type="primary" @click="handleAddTwoTask" size="mini">确 定</el-button>
@@ -277,7 +273,7 @@ export default {
         disabledDate: (time) => {
           if (this.oneInfo.endTime) {
             return (
-              time.getTime() >= new Date(this.oneInfo.endTime).getTime()
+              time.getTime() > new Date(this.oneInfo.endTime).getTime()
             );
           }
         }
@@ -287,8 +283,8 @@ export default {
         disabledDate: (time) => {
           if (this.oneInfo.startTime) {
             return (
-              time.getTime() <= new Date(this.oneInfo.startTime).getTime()
-            );
+              time.getTime() < new Date(this.oneInfo.startTime).getTime() - 86400000
+            )
           }
         }
       },
@@ -327,7 +323,7 @@ export default {
           if (this.twoInfo.endTime) {
             return (
               time.getTime() >= new Date(this.twoInfo.endTime).getTime()
-            );
+            )
           }
         }
       },
@@ -336,8 +332,8 @@ export default {
         disabledDate: (time) => {
           if (this.twoInfo.startTime) {
             return (
-              time.getTime() <= new Date(this.twoInfo.startTime).getTime()
-            );
+              time.getTime() <= new Date(this.twoInfo.startTime).getTime() - 86400000
+            )
           }
         }
       },
@@ -369,7 +365,6 @@ export default {
     this.getList()
   },
   methods: {
-    // 获取任务列表
     getList () {
       getProjectAllTask({ projectId: this.id }).then( res => {
         // console.log(res)
@@ -402,7 +397,7 @@ export default {
       }).catch(() => {
         this.$message({
           type: 'info',
-          message: '已取消删除'
+          message: '已取消选择'
         })      
       })
     },
@@ -421,7 +416,6 @@ export default {
             this.getList()
             this.$message.success( res.msg )
             this.oneAddDialogVisible = false
-            this.oneTitle = ''
           })
         }
       })
@@ -452,7 +446,6 @@ export default {
             this.getList()
             this.$message.success( res.msg )
             this.twoAddDialogVisible = false
-            this.twoTitle = ''
           })
         }
       })
@@ -474,7 +467,6 @@ export default {
         totalDay: undefined,
         personUse: undefined
       }
-
       this.twoInfo = {
         id: undefined,
         projectId: this.id, 
@@ -594,7 +586,7 @@ export default {
         return
       }
       if (newVal && this.oneInfo.totalDay) {
-        this.oneInfo.endTime = this.addCount( newVal, this.oneInfo.totalDay)
+        this.oneInfo.endTime = this.addCount( newVal, this.oneInfo.totalDay - 1)
         return
       }
     },
@@ -604,7 +596,7 @@ export default {
         return
       }
       if (this.oneInfo.totalDay && newVal) {
-        this.oneInfo.startTime = this.subCount( newVal, this.oneInfo.totalDay)
+        this.oneInfo.startTime = this.subCount( newVal, this.oneInfo.totalDay - 1)
         return
       }
     },
@@ -627,18 +619,17 @@ export default {
         return
       }
       if (newVal && this.twoInfo.totalDay) {
-        this.twoInfo.endTime = this.addCount( newVal, this.twoInfo.totalDay)
+        this.twoInfo.endTime = this.addCount( newVal, this.twoInfo.totalDay - 1)
         return
       }
     },
     'twoInfo.endTime': function ( newVal, oldVal ) {
-      // console.log(this.compareDate(this.oneInfo.startTime, newVal))
       if (this.twoInfo.startTime && newVal) {
         this.twoInfo.totalDay = this.datedifference( this.twoInfo.startTime, newVal )
         return
       }
       if (this.twoInfo.totalDay && newVal) {
-        this.twoInfo.startTime = this.subCount( newVal, this.twoInfo.totalDay)
+        this.twoInfo.startTime = this.subCount( newVal, this.twoInfo.totalDay - 1 )
         return
       }
     },
@@ -662,6 +653,7 @@ export default {
 .top {
   display: flex;
   justify-content: space-between;
+  margin-bottom: 15px;
 }
 .container {
   height: 300px;
@@ -671,9 +663,6 @@ export default {
   overflow: hidden;
   position: relative;
   height: 100%;
-}
-.bt {
-  border-top: 1px solid #DCDFE6;
 }
 .el-card {
   margin-top: 0;

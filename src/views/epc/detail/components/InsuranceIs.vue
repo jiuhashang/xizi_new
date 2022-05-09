@@ -2,36 +2,34 @@
   <!-- 保险情况 -->
   <el-card>
     <div class="top">
-      <div>
-        <el-form :inline="true" :model="form" size="mini">
-          <el-form-item>
-            <el-input v-model="tableInfo.safeName" placeholder="保险名称搜索" clearable></el-input>
-          </el-form-item>
-          <el-form-item >
-            <el-select v-model="tableInfo.safeType" placeholder="全部类型">
-              <el-option label="项目保险" :value="0"></el-option>
-              <el-option label="施工保险" :value="1"></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item >
-            <el-select v-model="tableInfo.wornFlag" placeholder="全部提醒状态">
-              <el-option label="已开启" :value="1"></el-option>
-              <el-option label="已关闭" :value="0"></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item >
-            <el-select v-model="tableInfo.status" placeholder="全部保险状态">
-              <el-option label="存续期" :value="0"></el-option>
-              <el-option label="即将到期" :value="1"></el-option>
-              <el-option label="已过期" :value="-1"></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary" icon="el-icon-search" @click="handleQuery">查 询</el-button>
-            <el-button @click="reset">重 置</el-button>
-          </el-form-item>
-        </el-form>
-      </div>
+      <el-form :inline="true" :model="form" size="mini">
+        <el-form-item>
+          <el-input v-model="tableInfo.safeName" placeholder="保险名称搜索" clearable></el-input>
+        </el-form-item>
+        <el-form-item >
+          <el-select v-model="tableInfo.safeType" placeholder="全部类型">
+            <el-option label="项目保险" :value="0"></el-option>
+            <el-option label="施工保险" :value="1"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item >
+          <el-select v-model="tableInfo.wornFlag" placeholder="全部提醒状态">
+            <el-option label="已开启" :value="1"></el-option>
+            <el-option label="已关闭" :value="0"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item >
+          <el-select v-model="tableInfo.status" placeholder="全部保险状态">
+            <el-option label="存续期" :value="0"></el-option>
+            <el-option label="即将到期" :value="1"></el-option>
+            <el-option label="已过期" :value="-1"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" icon="el-icon-search" @click="handleQuery">查 询</el-button>
+          <el-button @click="reset">重 置</el-button>
+        </el-form-item>
+      </el-form>
       <div>
         <el-button type="primary" size="mini" @click="handleAdd">添加保险</el-button>
       </div>
@@ -55,8 +53,8 @@
       <el-table-column label="保险状态">
         <template slot-scope="scope">
           <span v-if="scope.row.status == 0">续存</span>
-          <span v-else-if="scope.row.status == 1">即将过期</span>
-          <span v-else>已过期</span>
+          <span v-else-if="scope.row.status == 1" style="color:red;">即将过期</span>
+          <span v-else style="color:orange;">已过期</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" width="160">
@@ -71,7 +69,7 @@
     <c-pagination ref="pagination" :total="total" @sendsize="handleSizeChange" @sendpage="handleCurrentChange" />
 
     <el-dialog :title="title" :visible.sync="dialogVisible" :close-on-click-modal="false" width="40%" @close="clear">
-      <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" size="mini" style="width:95%;">
+      <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="80px" size="mini" class="width95">
         <el-form-item label="保险名称" prop="safeName">
           <el-input v-model="ruleForm.safeName" placeholder="请输入保险名称" />
         </el-form-item>

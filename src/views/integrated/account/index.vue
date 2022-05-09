@@ -44,7 +44,7 @@
           </template>
         </el-table-column>
         <el-table-column prop="companyName" label="所属公司" />
-        <el-table-column label="操作">
+        <el-table-column label="操作" width="100">
           <template slot-scope="scope">
             <el-button type="text" @click="edit(scope.row)">编辑</el-button>
             <el-button v-show="scope.row.status === 2" type="text" @click="handleEn(scope.row)">启用</el-button>
@@ -55,14 +55,9 @@
       <c-pagination ref="pagination" :total="total" @sendsize="handleSizeChange" @sendpage="handleCurrentChange" />
     </el-card>
     <!-- 创建账号 -->
-    <el-dialog
-      title="创建账号"
-      :visible.sync="createDialogVisible"
-      :close-on-click-modal="false"
-      @close="handleAddClose"
-      width="40%">
+    <el-dialog title="创建账号" :visible.sync="createDialogVisible" :close-on-click-modal="false" @close="handleAddClose" width="40%">
       <el-alert title="账号创建后无法删除，手机号码唯一，一人可持有多个账号" type="success" :closable="false" />
-      <el-form ref="addRef" :rules="addRules" :model="addForm" label-width="100px" style="padding:0 20px; position: relative;" size="mini">
+      <el-form ref="addRef" :rules="addRules" :model="addForm" label-width="100px" style="position: relative;" size="mini" class="width95">
         <el-form-item prop="userName" label="手机号码">
           <el-input v-model="addForm.userName" placeholder="请输入" clearable></el-input>
         </el-form-item>
@@ -101,14 +96,9 @@
       </span>
     </el-dialog>
      <!-- 编辑账号 -->
-    <el-dialog
-      title="编辑账号"
-      :visible.sync="editDialogVisible"
-      :close-on-click-modal="false"
-      @close="handleEditClose"
-      width="40%">
+    <el-dialog title="编辑账号" :visible.sync="editDialogVisible" :close-on-click-modal="false" @close="handleEditClose" width="40%">
       <el-alert title="账号创建后无法删除，手机号码唯一，一人可持有多个账号" type="success" :closable="false" />
-      <el-form ref="editRef" :rules="editRules" :model="editDeepForm" label-width="100px" style="padding:0 20px;" size="mini">
+      <el-form ref="editRef" :rules="editRules" :model="editDeepForm" label-width="100px" size="mini" class="width95">
         <el-form-item prop="userName" label="手机号码">
           <el-input v-model="editDeepForm.userName" placeholder="请输入" clearable />
         </el-form-item>
@@ -475,8 +465,8 @@ export default {
     list-style: none;
     background-color: #fff;
     position: absolute;
-    top: 300px;
-    left: 120px;
+    top: 270px;
+    left: 100px;
     border:1px solid #DCDFE6;
     border-radius: 5px;
     overflow: auto;
@@ -495,8 +485,8 @@ export default {
     list-style: none;
     background-color: #fff;
     position: absolute;
-    top: 450px;
-    left: 140px;
+    top: 420px;
+    left: 120px;
     border:1px solid #DCDFE6;
     border-radius: 5px;
     overflow: auto;

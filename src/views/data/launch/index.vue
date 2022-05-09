@@ -65,7 +65,7 @@
             <span v-else-if="scope.row.firstExamine == 99">项目已终止</span>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="130">
+        <el-table-column label="操作" width="120">
           <template slot-scope="scope">
             <el-button type="text" @click="handleView(scope.row)">查看</el-button>
             <el-button type="text" @click="approval(scope.row.projectId)">审批记录</el-button>
@@ -75,19 +75,14 @@
       <c-pagination ref="pagination" :total="total" @sendsize="handleSizeChange" @sendpage="handleCurrentChange" />
     </el-card>
     <!-- 创建项目表单 -->
-    <el-dialog
-      title="创建项目表单"
-      :visible.sync="dialogVisible"
-      width="40%"
-      :close-on-click-modal="false"
-      @close="colseDialog">
+    <el-dialog title="创建项目表单" :visible.sync="dialogVisible" width="40%" :close-on-click-modal="false" @close="colseDialog">
       <div style="position: relative;">
         <el-alert
           title="请在搜索结果中选择匹配的公司名称，且创建表单后将无法修改，请认真核对 !"
           type="success"
           :closable="false">
         </el-alert>
-        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="80px" style="width:80%;margin:auto;" size="mini">
+        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" size="mini" class="width95">
           <el-form-item label="项目名称" prop="projectName">
             <el-input v-model="ruleForm.projectName" placeholder="请输入" clearable />
           </el-form-item>

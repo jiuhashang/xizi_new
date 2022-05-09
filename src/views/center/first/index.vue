@@ -61,7 +61,7 @@
             <span v-else-if="scope.row.secondExamine == 99">项目已终止</span>
           </template>
         </el-table-column>
-        <el-table-column label="操作">
+        <el-table-column label="操作" width="200">
           <template slot-scope="scope">
             <el-button type="text" @click="handleView(scope.row)">查看</el-button>
             <el-button type="text" @click="handlePack(scope.row.projectId)">文件打包</el-button>

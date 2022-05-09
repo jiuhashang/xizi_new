@@ -85,7 +85,7 @@
         <el-table-column prop="firstExamineNow" sortable label="目前已初审通过" />
         <el-table-column prop="endExamineNow" sortable label="目前已终审通过" />
         <el-table-column prop="stopProjectNow" sortable label="目前已终止" />
-        <el-table-column label="操作">
+        <el-table-column label="操作" width="80">
           <template slot-scope="scope">
             <el-button type="text" @click="handleView(scope.row)">项目明细</el-button>
           </template>

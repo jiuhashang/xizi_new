@@ -2,29 +2,27 @@
   <!-- 团队成员 -->
   <el-card>
     <div class="top">
-      <div>
-        <el-form :inline="true" :model="form" size="mini">
-          <el-form-item>
-            <el-input v-model="form.nickName" placeholder="人员名称搜索" clearable />
-          </el-form-item>
-          <el-form-item>
-            <el-input v-model="form.createUserName" placeholder="邀请人搜索" clearable />
-          </el-form-item>
-          <el-form-item >
-            <el-select v-model="form.type" placeholder="全部类型" clearable>
-              <el-option label="项目经理" :value="0"></el-option>
-              <el-option label="商务负责" :value="1"></el-option>
-              <el-option label="采购负责" :value="2"></el-option>
-              <el-option label="图纸设计" :value="3"></el-option>
-              <el-option label="项目助理" :value="4"></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary" @click="handleQuery" icon="el-icon-search">查 询</el-button>
-            <el-button @click="reset">重 置</el-button>
-          </el-form-item>
-        </el-form>
-      </div>
+      <el-form :inline="true" :model="form" size="mini">
+        <el-form-item>
+          <el-input v-model="form.nickName" placeholder="人员名称搜索" clearable />
+        </el-form-item>
+        <el-form-item>
+          <el-input v-model="form.createUserName" placeholder="邀请人搜索" clearable />
+        </el-form-item>
+        <el-form-item >
+          <el-select v-model="form.type" placeholder="全部类型" clearable>
+            <el-option label="项目经理" :value="0"></el-option>
+            <el-option label="商务负责" :value="1"></el-option>
+            <el-option label="采购负责" :value="2"></el-option>
+            <el-option label="图纸设计" :value="3"></el-option>
+            <el-option label="项目助理" :value="4"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="handleQuery" icon="el-icon-search">查 询</el-button>
+          <el-button @click="reset">重 置</el-button>
+        </el-form-item>
+      </el-form>
       <div>
         <el-button type="primary" size="mini" @click="handleAdd"> 新增成员 </el-button>
       </div>
@@ -37,7 +35,7 @@
           <span v-else-if="scope.row.type == 1">商务负责</span>
           <span v-else-if="scope.row.type == 2">采购负责</span>
           <span v-else-if="scope.row.type == 3">图纸设计</span>
-          <span v-else-if="scope.row.type == 4">项目助理</span>
+          <span v-else>项目助理</span>
         </template>
       </el-table-column>
       <el-table-column prop="userName" label="手机号码" />

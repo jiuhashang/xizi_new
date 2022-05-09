@@ -52,7 +52,7 @@
 
     <!-- 上传图纸 -->
     <el-dialog title="上传图纸" :visible.sync="dialogVisible" :close-on-click-modal="false" width="40%" @close="clear">
-      <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" size="mini" style="width:95%;">
+      <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="80px" size="mini" class="width95">
         <el-form-item label="文件名称" prop="imageName">
           <el-input v-model="ruleForm.imageName"></el-input>
         </el-form-item>
@@ -73,9 +73,7 @@
 
 <script>
 import { getImgList, addImg, deleteImg } from '@/api/epc'
-// const uploadUrl = 'http://119.45.162.104:7800/huawei/uploadFile'
 const uploadUrl = 'http://123.60.52.140:7800/huawei/uploadFile'
-// const uploadUrl = 'http://10.11.32.54:7800/huawei/uploadFile'
 export default {
   name: 'DrawingManagement',
   props: ['id'],

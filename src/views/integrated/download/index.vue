@@ -42,7 +42,7 @@
           </template>
         </el-table-column>
         <el-table-column prop="fileValidityDate" label="存储到期时间" />
-        <el-table-column label="操作">
+        <el-table-column label="操作" width="100">
           <template slot-scope="scope">
             <el-button type="text" @click="handleDown(scope.row.downUrl)" :disabled="!(scope.row.status == 1)">下载</el-button>
             <el-button type="text" style="color:red;" @click="handleRemove(scope.row.id)">删除</el-button>
@@ -123,12 +123,10 @@ export default {
     },
 
     handleSizeChange(val) {
-      // console.log(`每页 ${val} 条`)
       this.tableInfo.pageSize = val
       this.selectDownFileList()
     },
     handleCurrentChange(val) {
-      // console.log(`当前页: ${val}`)
       this.tableInfo.pageIndex = val
       this.selectDownFileList()
     },
@@ -149,6 +147,6 @@ export default {
     }
   }
   .el-alert {
-    margin-bottom: 20px;
+    margin-bottom: 15px;
   }
 </style>

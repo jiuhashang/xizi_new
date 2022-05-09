@@ -37,7 +37,7 @@
             <span v-else style="color:red;">未启用</span>
           </template>
         </el-table-column>
-        <el-table-column label="操作">
+        <el-table-column label="操作" width="200">
           <template slot-scope="scope">
             <el-button type="text" @click="handleEdit(scope.row)">修改</el-button>
             <el-button type="text" @click="handleManagement(scope.row)">管理任务</el-button>
@@ -52,18 +52,16 @@
 
     <!-- 创建模板 -->
     <el-dialog title="创建模板" :visible.sync="createDialogVisible" :close-on-click-modal="false" width="40%" @close="clear">
-      <div style="padding:10px 20px;">
-        <el-form ref="createRef" :model="createInfo" :rules="rules" label-width="80px" size="mini">
-          <el-form-item label="模板名称" prop="templateName">
-            <el-input v-model="createInfo.templateName"></el-input>
-          </el-form-item>
-          <el-form-item label="模板类型" prop="type">
-            <el-select v-model="createInfo.type" placeholder="请选择" class="width100">
-              <el-option label="任务模板" value="0"></el-option>
-            </el-select>
-          </el-form-item>
-        </el-form>
-      </div>
+      <el-form ref="createRef" :model="createInfo" :rules="rules" label-width="80px" size="mini" class="width95">
+        <el-form-item label="模板名称" prop="templateName">
+          <el-input v-model="createInfo.templateName"></el-input>
+        </el-form-item>
+        <el-form-item label="模板类型" prop="type">
+          <el-select v-model="createInfo.type" placeholder="请选择" class="width100">
+            <el-option label="任务模板" value="0"></el-option>
+          </el-select>
+        </el-form-item>
+      </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="createDialogVisible = false" size="small">取 消</el-button>
         <el-button type="primary" @click="handleCreateTask" size="small">确 定</el-button>
@@ -72,18 +70,16 @@
 
     <!-- 修改模板 -->
     <el-dialog title="修改模板" :visible.sync="editDialogVisible" :close-on-click-modal="false" width="40%">
-      <div style="padding:10px 20px;">
-        <el-form ref="editRef" :model="editInfo" :rules="rules" label-width="80px" size="mini">
-          <el-form-item label="模板名称" prop="templateName">
-            <el-input v-model="editInfo.templateName"></el-input>
-          </el-form-item>
-          <el-form-item label="模板类型" prop="type">
-            <el-select v-model="editInfo.type" placeholder="请选择" class="width100">
-              <el-option label="任务模板" value="0"></el-option>
-            </el-select>
-          </el-form-item>
-        </el-form>
-      </div>
+      <el-form ref="editRef" :model="editInfo" :rules="rules" label-width="80px" size="mini" class="width95">
+        <el-form-item label="模板名称" prop="templateName">
+          <el-input v-model="editInfo.templateName"></el-input>
+        </el-form-item>
+        <el-form-item label="模板类型" prop="type">
+          <el-select v-model="editInfo.type" placeholder="请选择" class="width100">
+            <el-option label="任务模板" value="0"></el-option>
+          </el-select>
+        </el-form-item>
+      </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="editDialogVisible = false" size="mini">取 消</el-button>
         <el-button type="primary" @click="handleEditTask" size="mini">确 定</el-button>
@@ -136,7 +132,6 @@ export default {
     // 获取任务模板列表
     getList () {
       getList( this.tableInfo ).then( res => {
-        // console.log(res)
         const { records, total } = res.data
         this.tableData = records
         this.total = total 

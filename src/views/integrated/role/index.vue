@@ -25,7 +25,7 @@
       <el-table :data="tableData" v-loading="loading" stripe :header-cell-style="{background:'#eef1f6',color:'#606266'}" size="mini">
         <el-table-column prop="roleName" label="角色名称" />
         <el-table-column prop="remark" label="备注" />
-        <el-table-column label="操作">
+        <el-table-column label="操作" width="100">
           <template slot-scope="scope">
             <el-button type="text"  @click="handleEdit(scope.row)">编辑</el-button>
             <el-button type="text" style="color:red;" @click="handleDelete(scope.row.id)">删除</el-button>
@@ -132,12 +132,10 @@ export default {
     },
     
     handleSizeChange(val) {
-      // console.log(`每页 ${val} 条`)
       this.tableInfo.pageSize = val
       this.roleList()
     },
     handleCurrentChange(val) {
-      // console.log(`当前页: ${val}`)
       this.tableInfo.pageIndex = val
       this.roleList()
     },

@@ -49,7 +49,7 @@
           </template>
         </el-table-column>
         <el-table-column prop="shareCountNum" label="已分享机构数" />
-        <el-table-column label="操作">
+        <el-table-column label="操作" width="100">
           <template slot-scope="scope">
             <el-button type="text" @click="handleView(scope.row)">管理分享</el-button>
           </template>

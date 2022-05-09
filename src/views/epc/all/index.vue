@@ -184,7 +184,7 @@
                   <span>{{ item.nickName ? item.nickName : '-' }}</span>
                 </el-col>
                 <el-col :span="4">
-                  <span class="mr10">关键任务</span>
+                  <span class="mr10">主要任务</span>
                   <span v-if="item.taskWornImportant == 0" class="el-icon-success" style="color: green;font-size:14px;"></span>
                   <span v-else class="el-icon-warning" style="color:red;font-size:14px;"></span>
                 </el-col>

@@ -17,7 +17,7 @@
     </div>
     <el-card>
       <ProjectTitle title="项目信息" />
-      <el-form ref="form" :model="form" :rules="rules" label-width="120px" size="small" style="margin-top:20px;">
+      <el-form ref="form" :model="form" :rules="rules" label-width="120px" size="mini" style="margin-top:20px;">
         <el-row :gutter="10">
           <el-col :span="8">
             <el-form-item label="EPC项目名称" prop="projectName">
@@ -116,7 +116,7 @@
         <el-row :gutter="10">
           <el-col>
             <el-form-item label="立项说明" prop="setProjectMessage">
-              <el-input type="textarea" placeholder="请输入" v-model="form.setProjectMessage" maxlength="500" show-word-limit />
+              <el-input type="textarea" placeholder="请输入" v-model="form.setProjectMessage" maxlength="500" />
             </el-form-item>
           </el-col>
         </el-row>
@@ -128,7 +128,7 @@
         </div>
       </ProjectTitle>
       <el-alert title="若关联已经市场开发的项目，可自动带入项目名称、公司名称、建站地址。立项成功后可在项目管理中修改关联项目" type="success" :closable="false" style="margin-top:15px;" />
-      <el-form :model="seProjectInfo" label-width="120px" size="small" style="margin-top:20px;" disabled>
+      <el-form :model="seProjectInfo" label-width="120px" size="mini" style="margin-top:15px;" disabled>
         <el-row :gutter="10">
           <el-col :span="8">
             <el-form-item label="项目名称">
@@ -201,7 +201,7 @@
             <span v-else-if="scope.row.status == 99">项目终止</span>
           </template>
         </el-table-column>
-        <el-table-column label="操作">
+        <el-table-column label="操作" width="80">
           <template slot-scope="scope">
             <el-button type="text" @click="handleChoose(scope.row)">选择</el-button>
           </template>
@@ -209,7 +209,7 @@
       </el-table>
       <c-pagination ref="pagination" :total="total" @sendsize="handleSizeChange" @sendpage="handleCurrentChange" />
       <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="dialogVisible = false" size="small">关 闭</el-button>
+        <el-button type="primary" @click="dialogVisible = false" size="mini">关 闭</el-button>
       </span>
     </el-dialog>
   </div>

@@ -43,7 +43,7 @@
           </template>
         </el-table-column>
         <el-table-column prop="remark" label="备注" />
-        <el-table-column label="操作">
+        <el-table-column label="操作" width="100">
           <template slot-scope="scope">
             <el-button type="text" @click="handleEdit(scope.row)">编辑</el-button>
             <el-button type="text" v-show="scope.row.status == 1"  @click="handleEn(scope.row)">启用</el-button>
@@ -54,72 +54,58 @@
       <c-pagination ref="pagination" :total="total" @sendsize="handleSizeChange" @sendpage="handleCurrentChange" />
     </el-card>
     <!-- 创建机构 -->
-    <el-dialog
-      title="创建机构"
-      :visible.sync="addDialogVisible"
-      :close-on-click-modal="false"
-      @close="handleClose"
-      width="40%">
-      <div style="padding: 0 30px;">
-        <el-form ref="addRef" :rules="addRules" :model="addForm" label-width="100px" size="mini">
-          <el-form-item label="机构类型" prop="bankType">
-            <el-select v-model="addForm.bankType" placeholder="请选择" class="width100">
-              <el-option label="银行" :value="0"></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="机构名称" prop="bankName">
-            <el-input v-model="addForm.bankName" placeholder="请输入机构名称"></el-input>
-          </el-form-item>
-          <el-form-item label="登录账号" prop="loginPhone">
-            <el-input v-model="addForm.loginPhone" placeholder="请输入登录账号"></el-input>
-          </el-form-item>
-          <el-form-item label="联系人" prop="contactName">
-            <el-input v-model="addForm.contactName" placeholder="请输入联系人"></el-input>
-          </el-form-item>
-          <el-form-item label="电子邮箱" prop="email">
-            <el-input v-model="addForm.email" placeholder="请输入电子邮箱"></el-input>
-          </el-form-item>
-          <el-form-item label="登录密码" prop="loginPassword">
-            <el-input v-model="addForm.loginPassword" placeholder="请设置登录密码"></el-input>
-          </el-form-item>
-        </el-form>
-      </div>
+    <el-dialog title="创建机构" :visible.sync="addDialogVisible" :close-on-click-modal="false" @close="handleClose" width="40%">
+      <el-form ref="addRef" :rules="addRules" :model="addForm" label-width="100px" size="mini" class="width95">
+        <el-form-item label="机构类型" prop="bankType">
+          <el-select v-model="addForm.bankType" placeholder="请选择" class="width100">
+            <el-option label="银行" :value="0"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="机构名称" prop="bankName">
+          <el-input v-model="addForm.bankName" placeholder="请输入机构名称"></el-input>
+        </el-form-item>
+        <el-form-item label="登录账号" prop="loginPhone">
+          <el-input v-model="addForm.loginPhone" placeholder="请输入登录账号"></el-input>
+        </el-form-item>
+        <el-form-item label="联系人" prop="contactName">
+          <el-input v-model="addForm.contactName" placeholder="请输入联系人"></el-input>
+        </el-form-item>
+        <el-form-item label="电子邮箱" prop="email">
+          <el-input v-model="addForm.email" placeholder="请输入电子邮箱"></el-input>
+        </el-form-item>
+        <el-form-item label="登录密码" prop="loginPassword">
+          <el-input v-model="addForm.loginPassword" placeholder="请设置登录密码"></el-input>
+        </el-form-item>
+      </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="addDialogVisible = false" size="mini">取 消</el-button>
         <el-button type="primary" @click="handleAdd" size="mini">确 定</el-button>
       </span>
     </el-dialog>
     <!-- 编辑机构 -->
-    <el-dialog
-      title="编辑机构"
-      :visible.sync="editDialogVisible"
-      :close-on-click-modal="false"
-      @close="handleClose"
-      width="40%">
-      <div style="padding: 0 30px;">
-        <el-form ref="addRef" :rules="editRules" :model="editForm" label-width="100px" size="mini">
-          <el-form-item label="机构类型" prop="bankType">
-            <el-select v-model="editForm.bankType" placeholder="请选择" class="width100">
-              <el-option label="银行" :value="0"></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="机构名称" prop="bankName">
-            <el-input v-model="editForm.bankName" placeholder="请输入机构名称"></el-input>
-          </el-form-item>
-          <el-form-item label="登录账号" prop="loginPhone">
-            <el-input v-model="editForm.loginPhone" placeholder="请输入登录账号"></el-input>
-          </el-form-item>
-          <el-form-item label="联系人" prop="contactName">
-            <el-input v-model="editForm.contactName" placeholder="请输入联系人姓名"></el-input>
-          </el-form-item>
-          <el-form-item label="电子邮箱" prop="email">
-            <el-input v-model="editForm.email" placeholder="请输入电子邮箱"></el-input>
-          </el-form-item>
-          <el-form-item label="登录密码" prop="loginPassword">
-            <el-input v-model="editForm.loginPassword" placeholder="请设置登录密码"></el-input>
-          </el-form-item>
-        </el-form>
-      </div>
+    <el-dialog title="编辑机构" :visible.sync="editDialogVisible" :close-on-click-modal="false" @close="handleClose" width="40%">
+      <el-form ref="addRef" :rules="editRules" :model="editForm" label-width="100px" size="mini" class="width95">
+        <el-form-item label="机构类型" prop="bankType">
+          <el-select v-model="editForm.bankType" placeholder="请选择" class="width100">
+            <el-option label="银行" :value="0"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="机构名称" prop="bankName">
+          <el-input v-model="editForm.bankName" placeholder="请输入机构名称"></el-input>
+        </el-form-item>
+        <el-form-item label="登录账号" prop="loginPhone">
+          <el-input v-model="editForm.loginPhone" placeholder="请输入登录账号"></el-input>
+        </el-form-item>
+        <el-form-item label="联系人" prop="contactName">
+          <el-input v-model="editForm.contactName" placeholder="请输入联系人姓名"></el-input>
+        </el-form-item>
+        <el-form-item label="电子邮箱" prop="email">
+          <el-input v-model="editForm.email" placeholder="请输入电子邮箱"></el-input>
+        </el-form-item>
+        <el-form-item label="登录密码" prop="loginPassword">
+          <el-input v-model="editForm.loginPassword" placeholder="请设置登录密码"></el-input>
+        </el-form-item>
+      </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="editDialogVisible = false" size="mini">取 消</el-button>
         <el-button type="primary" @click="edit" size="mini">确 定</el-button>
@@ -139,7 +125,6 @@ export default {
         return callback(new Error('邮箱不能为空'))
       } else {
         const reg = /^([a-zA-Z0-9]+[-_\.]?)+@[a-zA-Z0-9]+\.[a-z]+$/
-        // console.log(reg.test(value))
         if (reg.test(value)) {
           callback()
         } else {

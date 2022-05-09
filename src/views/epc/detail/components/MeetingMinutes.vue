@@ -2,41 +2,39 @@
   <!-- 会议纪要 -->
   <el-card>
     <div class="top">
-      <div>
-        <el-form :inline="true" :model="tableInfo" size="mini">
-          <el-form-item>
-            <el-input v-model="tableInfo.createUserName" placeholder="会议创建人搜索" clearable />
-          </el-form-item>
-          <el-form-item >
-            <el-select v-model="tableInfo.type" placeholder="全部类型" clearable>
-              <el-option label="日常例会" :value="0"></el-option>
-              <el-option label="图纸评审" :value="1"></el-option>
-              <el-option label="问题讨论" :value="2"></el-option>
-              <el-option label="竣工验收" :value="3"></el-option>
-              <el-option label="其他" :value="9"></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item>
-            <el-date-picker
-              v-model="timedate"
-              type="daterange"
-              align="center"
-              value-format="yyyy-MM-dd HH:mm:ss"
-              :default-time="['00:00:00', '23:59:59']"
-              unlink-panels
-              range-separator="至"
-              start-placeholder="开始日期"
-              end-placeholder="结束日期"
-              @change="handleTimeChange"
-              :picker-options="pickerOptions"
-            />
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary" icon="el-icon-search" @click="handleQuery">查 询</el-button>
-            <el-button @click="reset">重 置</el-button>
-          </el-form-item>
-        </el-form>
-      </div>
+      <el-form :inline="true" :model="tableInfo" size="mini">
+        <el-form-item>
+          <el-input v-model="tableInfo.createUserName" placeholder="会议创建人搜索" clearable />
+        </el-form-item>
+        <el-form-item >
+          <el-select v-model="tableInfo.type" placeholder="全部类型" clearable>
+            <el-option label="日常例会" :value="0"></el-option>
+            <el-option label="图纸评审" :value="1"></el-option>
+            <el-option label="问题讨论" :value="2"></el-option>
+            <el-option label="竣工验收" :value="3"></el-option>
+            <el-option label="其他" :value="9"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item>
+          <el-date-picker
+            v-model="timedate"
+            type="daterange"
+            align="center"
+            value-format="yyyy-MM-dd HH:mm:ss"
+            :default-time="['00:00:00', '23:59:59']"
+            unlink-panels
+            range-separator="至"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+            @change="handleTimeChange"
+            :picker-options="pickerOptions"
+          />
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" icon="el-icon-search" @click="handleQuery">查 询</el-button>
+          <el-button @click="reset">重 置</el-button>
+        </el-form-item>
+      </el-form>
       <div>
         <el-button type="primary" size="mini" @click="handleAdd">新建会议</el-button>
       </div>
@@ -89,7 +87,7 @@
           <el-date-picker v-model="ruleForm.time" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="请选择会议时间" style="width:100%;" />
         </el-form-item>
         <el-form-item label="会议概况" prop="message">
-          <el-input type="textarea" :autosize="{ minRows: 4, maxRows: 50}" v-model="ruleForm.message" placeholder="请输入会议内容,最多500字" />
+          <el-input type="textarea" :autosize="{ minRows: 8, maxRows: 50}" v-model="ruleForm.message" placeholder="请输入会议内容,最多500字" />
         </el-form-item>
         <el-form-item label="上传文件">
           <file-upload-string v-model="ruleForm.fileUrl" :limit="1" ref="fileUpload" />

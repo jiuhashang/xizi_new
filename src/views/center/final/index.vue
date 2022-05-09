@@ -44,7 +44,7 @@
             <span v-else-if="scope.row.thirdExamine == 99">项目已终止</span>
           </template>
         </el-table-column>
-        <el-table-column label="操作">
+        <el-table-column label="操作" width="120">
           <template slot-scope="scope">
             <el-button type="text" @click="handleView(scope.row)">查看</el-button>
             <el-button type="text" @click="approval(scope.row.projectId)">审批记录</el-button>

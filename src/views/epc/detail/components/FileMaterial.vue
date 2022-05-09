@@ -2,34 +2,32 @@
   <!-- 文件材料 -->
   <el-card>
     <div class="top">
-      <div>
-        <el-form :inline="true" :model="tableInfo" size="mini">
-          <el-form-item>
-            <el-input v-model="tableInfo.fileName" placeholder="文档名称搜索" clearable />
-          </el-form-item>
-          <el-form-item>
-            <el-input v-model="tableInfo.createUserName" placeholder="上传人搜索" clearable />
-          </el-form-item>
-          <el-form-item>
-            <el-date-picker
-              v-model="timedate"
-              type="daterange"
-              align="center"
-              value-format="yyyy-MM-dd HH:mm:ss"
-              :default-time="['00:00:00', '23:59:59']"
-              unlink-panels
-              range-separator="至"
-              start-placeholder="开始日期"
-              end-placeholder="结束日期"
-              @change="handleTimeChange"
-              :picker-options="pickerOptions" />
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary" icon="el-icon-search" @click="handleQuery">查 询</el-button>
-            <el-button @click="reset">重 置</el-button>
-          </el-form-item>
-        </el-form>
-      </div>
+      <el-form :inline="true" :model="tableInfo" size="mini">
+        <el-form-item>
+          <el-input v-model="tableInfo.fileName" placeholder="文档名称搜索" clearable />
+        </el-form-item>
+        <el-form-item>
+          <el-input v-model="tableInfo.createUserName" placeholder="上传人搜索" clearable />
+        </el-form-item>
+        <el-form-item>
+          <el-date-picker
+            v-model="timedate"
+            type="daterange"
+            align="center"
+            value-format="yyyy-MM-dd HH:mm:ss"
+            :default-time="['00:00:00', '23:59:59']"
+            unlink-panels
+            range-separator="至"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+            @change="handleTimeChange"
+            :picker-options="pickerOptions" />
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" icon="el-icon-search" @click="handleQuery">查 询</el-button>
+          <el-button @click="reset">重 置</el-button>
+        </el-form-item>
+      </el-form>
       <div>
         <el-button type="primary" size="mini" @click="handlePut">上传文件</el-button>
       </div>

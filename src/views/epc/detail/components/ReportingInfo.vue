@@ -2,31 +2,29 @@
   <!-- 文件材料 -->
   <el-card>
     <div class="top">
-      <div>
-        <el-form :inline="true" :model="tableInfo" size="mini">
-          <el-form-item>
-            <el-input v-model="tableInfo.createUserName" placeholder="汇报人搜索" clearable />
-          </el-form-item>
-          <el-form-item>
-            <el-date-picker
-              v-model="timedate"
-              type="daterange"
-              align="center"
-              value-format="yyyy-MM-dd HH:mm:ss"
-              :default-time="['00:00:00', '23:59:59']"
-              unlink-panels
-              range-separator="至"
-              start-placeholder="开始日期"
-              end-placeholder="结束日期"
-              @change="handleTimeChange"
-              :picker-options="pickerOptions" />
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary" icon="el-icon-search" @click="handleQuery">查 询</el-button>
-            <el-button @click="reset">重 置</el-button>
-          </el-form-item>
-        </el-form>
-      </div>
+      <el-form :inline="true" :model="tableInfo" size="mini">
+        <el-form-item>
+          <el-input v-model="tableInfo.createUserName" placeholder="汇报人搜索" clearable />
+        </el-form-item>
+        <el-form-item>
+          <el-date-picker
+            v-model="timedate"
+            type="daterange"
+            align="center"
+            value-format="yyyy-MM-dd HH:mm:ss"
+            :default-time="['00:00:00', '23:59:59']"
+            unlink-panels
+            range-separator="至"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+            @change="handleTimeChange"
+            :picker-options="pickerOptions" />
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" icon="el-icon-search" @click="handleQuery">查 询</el-button>
+          <el-button @click="reset">重 置</el-button>
+        </el-form-item>
+      </el-form>
       <div>
         <el-button type="primary" size="mini" @click="handleAdd">新增汇报</el-button>
       </div>
@@ -53,7 +51,7 @@
           <el-input v-model="ruleForm.reportName" placeholder="请输入汇报标题" />
         </el-form-item>
         <el-form-item label="汇报内容" prop="message">
-          <el-input type="textarea" :autosize="{ minRows: 4, maxRows: 50}" v-model="ruleForm.message" placeholder="请输入汇报内容,最多500字" />
+          <el-input type="textarea" :autosize="{ minRows: 8, maxRows: 50}" v-model="ruleForm.message" placeholder="请输入汇报内容,最多500字" />
         </el-form-item>
         <el-form-item label="上传文件">
           <file-upload-string v-model="ruleForm.reportUrl" :limit="1" />
