@@ -42,7 +42,7 @@
       </el-table-column>
       <el-table-column prop="createUserName" label="上传人" />
       <el-table-column prop="createTime" label="上传时间" />
-      <el-table-column label="操作" width="100">
+      <el-table-column label="操作" width="80">
         <template slot-scope="scope">
           <el-button type="text" style="color:red;" @click="handleRemove(scope.row.id)">删除</el-button>
         </template>

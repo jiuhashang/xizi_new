@@ -41,7 +41,7 @@
       <el-table-column prop="userName" label="手机号码" />
       <el-table-column prop="createTime" label="加入时间" />
       <el-table-column prop="createUserName" label="邀请人" />
-      <el-table-column label="操作" width="100">
+      <el-table-column label="操作" width="80">
         <template slot-scope="scope">
           <el-button type="text" style="color:red;" @click="handleRemove( scope.row )">移除</el-button>
         </template>

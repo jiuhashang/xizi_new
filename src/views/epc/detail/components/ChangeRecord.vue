@@ -40,8 +40,8 @@
 
     <el-table :data="tableData" v-loading="loading" stripe :header-cell-style="{background:'#eef1f6',color:'#606266'}" size="mini">
       <el-table-column label="操作内容" prop="editMessage" />
-      <el-table-column label="操作时间" prop="createTime" />
-      <el-table-column label="板块">
+      <el-table-column label="操作时间" prop="createTime" width="210" />
+      <el-table-column label="板块" width="180">
         <template slot-scope="scope">
           <span v-if="scope.row.type == 0">项目进度</span>
           <span v-else-if="scope.row.type == 1">项目概况</span>
@@ -54,8 +54,8 @@
           <span v-else>文件材料</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作人员" prop="createUserName" />
-      <el-table-column label="人员身份">
+      <el-table-column label="操作人员" prop="createUserName" width="180" />
+      <el-table-column label="人员身份" width="100">
         <template slot-scope="scope">
           <span v-if="scope.row.userType == 0">项目经理</span>
           <span v-else-if="scope.row.userType == 1">商务负责</span>

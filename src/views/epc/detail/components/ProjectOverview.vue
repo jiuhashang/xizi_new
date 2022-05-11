@@ -509,4 +509,7 @@ export default {
   width: 20px;
   height: 20px;
 }
+/deep/ .el-step.is-horizontal .el-step__line {
+  top: 8px;
+}
 </style>

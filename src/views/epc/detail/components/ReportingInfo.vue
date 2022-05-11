@@ -45,7 +45,7 @@
       <c-pagination ref="pagination" :total="total" @sendsize="handleSizeChange" @sendpage="handleCurrentChange" />
     </div>
     
-    <el-dialog :title="title" :visible.sync="dialogVisible" :close-on-click-modal="false" width="40%" @close="clear">
+    <el-dialog :title="title" :visible.sync="dialogVisible" :close-on-click-modal="false" :destroy-on-close="true" width="40%" @close="clear">
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" size="mini" style="width:95%;">
         <el-form-item label="汇报标题" prop="reportName">
           <el-input v-model="ruleForm.reportName" placeholder="请输入汇报标题" />
@@ -54,7 +54,11 @@
           <el-input type="textarea" :autosize="{ minRows: 8, maxRows: 50}" v-model="ruleForm.message" placeholder="请输入汇报内容,最多500字" />
         </el-form-item>
         <el-form-item label="上传文件">
-          <file-upload-string v-model="ruleForm.reportUrl" :limit="1" />
+          <file-upload-string v-model="ruleForm.reportUrl"
+            @progress="progress"
+            @success="success"
+            @remove="remove"
+            :limit="1" />
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -63,13 +67,13 @@
       </span>
     </el-dialog>
 
-    <el-dialog title="查看汇报" :visible.sync="viewDialogVisible" :close-on-click-modal="false" width="40%">
+    <el-dialog title="查看汇报" :visible.sync="viewDialogVisible" :close-on-click-modal="false" width="40%" @close="clearView">
       <div style="color:#333;">
         <span style="font-size:16px;font-weight:800;">{{ info.reportName }}</span>
         <div style="white-space:pre-wrap;font-size:13px;margin-top:20px;">{{ info.message }}</div>
       </div>
       <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="down(info.reportUrl)" size="mini" :disabled="info.reportUrl === null">下载附件</el-button>
+        <el-button type="primary" @click="down(info.reportUrl)" size="mini" :disabled="info.reportUrl === null || info.reportUrl == ''">下载附件</el-button>
         <el-button type="primary" @click="viewDialogVisible = false" size="mini">关 闭</el-button>
       </span>
     </el-dialog>
@@ -128,10 +132,11 @@ export default {
       dialogVisible: false,
       title: '',
       ruleForm: {
+        id: undefined,
         projectId: this.id,
         reportName: undefined,
         message: undefined,
-        reportUrl: null
+        reportUrl: undefined
       },
       rules: {
         reportName: [
@@ -143,6 +148,7 @@ export default {
           { min: 1, max: 500, message: '最多 500 个字符', trigger: 'blur' }
         ]
       },
+      isDisabled: false,
       // 查看
       info: {},
       viewDialogVisible: false
@@ -166,11 +172,16 @@ export default {
     add () {
       this.$refs.ruleForm.validate((valid) => {
         if ( valid ) {
-          addReportInfo( this.ruleForm ).then( res => {
-            this.$message.success(res.msg)
-            this.getList()
-            this.dialogVisible = false
-          })
+          if (!this.isDisabled) {
+            addReportInfo( this.ruleForm ).then( res => {
+              this.$message.success(res.msg)
+              this.getList()
+              this.dialogVisible = false
+            })
+          } else {
+            this.$message.warning('请等待上传完成再提交！')
+            return
+          }
         }
       })
     },
@@ -179,6 +190,7 @@ export default {
       this.info = row
       this.viewDialogVisible = true 
     },
+
     // 编辑
     handEdit ( row ) {
       this.title = '修改汇报'
@@ -187,6 +199,7 @@ export default {
       })
       this.dialogVisible = true
     },
+
     // 删除
     handleRemove (id) {
       this.$confirm('确定要删除该汇报信息吗?', '提示', {
@@ -215,8 +228,12 @@ export default {
         projectId: this.id,
         reportName: undefined,
         message: undefined,
-        reportUrl: null
+        reportUrl: undefined
       }
+      this.isDisabled = false
+    },
+    clearView () {
+      this.info = {}
     },
 
     handleTimeChange( val ) {
@@ -255,6 +272,15 @@ export default {
     handleCurrentChange(val) {
       this.tableInfo.pageIndex = val
       this.getList()
+    },
+    progress() {
+      this.isDisabled = true
+    },
+    success() {
+      this.isDisabled = false
+    },
+    remove() {
+      this.isDisabled = false
     }
   }
 }

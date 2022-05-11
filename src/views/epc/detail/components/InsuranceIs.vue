@@ -7,19 +7,19 @@
           <el-input v-model="tableInfo.safeName" placeholder="保险名称搜索" clearable></el-input>
         </el-form-item>
         <el-form-item >
-          <el-select v-model="tableInfo.safeType" placeholder="全部类型">
+          <el-select v-model="tableInfo.safeType" placeholder="全部类型" clearable>
             <el-option label="项目保险" :value="0"></el-option>
             <el-option label="施工保险" :value="1"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item >
-          <el-select v-model="tableInfo.wornFlag" placeholder="全部提醒状态">
+          <el-select v-model="tableInfo.wornFlag" placeholder="全部提醒状态" clearable>
             <el-option label="已开启" :value="1"></el-option>
             <el-option label="已关闭" :value="0"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item >
-          <el-select v-model="tableInfo.status" placeholder="全部保险状态">
+          <el-select v-model="tableInfo.status" placeholder="全部保险状态" clearable>
             <el-option label="存续期" :value="0"></el-option>
             <el-option label="即将到期" :value="1"></el-option>
             <el-option label="已过期" :value="-1"></el-option>
@@ -52,9 +52,9 @@
       </el-table-column>
       <el-table-column label="保险状态">
         <template slot-scope="scope">
-          <span v-if="scope.row.status == 0">续存</span>
-          <span v-else-if="scope.row.status == 1" style="color:red;">即将过期</span>
-          <span v-else style="color:orange;">已过期</span>
+          <span v-if="scope.row.status == 0" style="color: #70B603;">存续期</span>
+          <span v-else-if="scope.row.status == 1" style="color: orange;">即将过期</span>
+          <span v-else style="color: red;">已过期</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" width="160">

@@ -33,7 +33,7 @@
           <span v-else> - </span>
         </template>
       </el-table-column>
-      <el-table-column label="完成日期" align="center">
+      <el-table-column label="完成日期" align="center" width="100">
         <template slot-scope="scope">
           <span>{{ scope.row.finishTime ? scope.row.finishTime : '-' }}</span>
         </template>

@@ -69,7 +69,7 @@
       <c-pagination ref="pagination" :total="total" @sendsize="handleSizeChange" @sendpage="handleCurrentChange" />
     </div>
 
-    <el-dialog :title="title" :visible.sync="dialogVisible" :close-on-click-modal="false" width="40%" @close="handleClear">
+    <el-dialog :title="title" :visible.sync="dialogVisible" :close-on-click-modal="false" :destroy-on-close="true" width="40%" @close="handleClear">
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" size="mini" style="width:95%;">
         <el-form-item label="会议主题" prop="theme">
           <el-input v-model="ruleForm.theme" placeholder="请输入会议主题" />
@@ -90,7 +90,11 @@
           <el-input type="textarea" :autosize="{ minRows: 8, maxRows: 50}" v-model="ruleForm.message" placeholder="请输入会议内容,最多500字" />
         </el-form-item>
         <el-form-item label="上传文件">
-          <file-upload-string v-model="ruleForm.fileUrl" :limit="1" ref="fileUpload" />
+          <file-upload-string v-model="ruleForm.fileUrl"
+            @progress="progress"
+            @success="success"
+            @remove="remove"
+            :limit="1" />
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -115,7 +119,7 @@
         <div style="white-space:pre-wrap;font-size:13px;">{{ info.message }}</div>
       </div>
       <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="down(info.fileUrl)" size="mini" :disabled="info.fileUrl === null">下载附件</el-button>
+        <el-button type="primary" @click="down(info.fileUrl)" size="mini" :disabled="info.fileUrl === null || info.fileUrl == ''">下载附件</el-button>
         <el-button type="primary" @click="viewDialogVisible = false" size="mini">关 闭</el-button>
       </span>
     </el-dialog>
@@ -193,6 +197,7 @@ export default {
           { min: 1, max: 500, message: '最多 500 个字符', trigger: 'blur' }
         ]
       },
+      isDisabled: false,
       // 查看
       viewDialogVisible: false,
       info: {}
@@ -216,11 +221,16 @@ export default {
     add () {
       this.$refs.ruleForm.validate((valid) => {
         if ( valid ) {
-          addMeetingInfo( this.ruleForm ).then( res => {
-            this.$message.success(res.msg)
-            this.getList()
-            this.dialogVisible = false
-          })
+          if (!this.isDisabled) { 
+            addMeetingInfo( this.ruleForm ).then( res => {
+              this.$message.success(res.msg)
+              this.getList()
+              this.dialogVisible = false
+            })
+          } else {
+            this.$message.warning('请等待上传完成再提交！')
+            return
+          }
         }
       })
     },
@@ -263,6 +273,7 @@ export default {
         message: undefined,
         fileUrl: null
       }
+      this.isDisabled = false
     },
     down (url) {
       window.open(url)
@@ -304,6 +315,15 @@ export default {
       // console.log(`当前页: ${val}`)
       this.tableInfo.pageIndex = val
       this.getList()
+    },
+    progress() {
+      this.isDisabled = true
+    },
+    success() {
+      this.isDisabled = false
+    },
+    remove() {
+      this.isDisabled = false
     }
   }
 }

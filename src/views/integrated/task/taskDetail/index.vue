@@ -37,7 +37,7 @@
     </el-card>
 
     <!-- 添加/编辑一级任务 -->
-    <el-dialog :title="title" :visible.sync="oneAddDialogVisible" width="40%" @close="clear('AddOneRef')">
+    <el-dialog :title="title" :visible.sync="oneAddDialogVisible" :close-on-click-modal="false" width="40%" @close="clear('AddOneRef')">
       <el-form :model="oneForm" :rules="oneRules" ref="AddOneRef" label-width="80px" size="mini" class="width95">
         <el-form-item label="任务名称" prop="taskName">
           <el-input v-model="oneForm.taskName" clearable />
@@ -62,7 +62,7 @@
     </el-dialog>
     
     <!-- 添加/编辑二级任务 -->
-    <el-dialog :title="title" :visible.sync="twoAddDialogVisible" width="40%" @close="clear('AddTwoRef')">
+    <el-dialog :title="title" :visible.sync="twoAddDialogVisible" :close-on-click-modal="false" width="40%" @close="clear('AddTwoRef')">
       <el-form :model="twoForm" :rules="twoRules" ref="AddTwoRef" label-width="80px" size="mini" class="width95">
         <el-form-item label="任务名称" prop="taskName">
           <el-input v-model="twoForm.taskName" />

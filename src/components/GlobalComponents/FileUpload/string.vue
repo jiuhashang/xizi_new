@@ -10,7 +10,9 @@
       :disabled="disabled"
       :accept="accept"
       @change="handleChange"
-      @success="handleSuccess"
+      @success="success"
+      @progress="progress"
+      @remove="remove"
     />
   </div>
 </template>
@@ -80,6 +82,16 @@ export default {
     },
     handleClick() {
       this.$refs.fileUploader.$refs.imageUpload.$el.querySelector('.el-upload__input').click()
+    },
+    progress(event, file, fileList) {
+      // console.log(event, file, fileList)
+      this.$emit('progress', event, file, fileList)
+    },
+    success(array, res, file, filelist) {
+      this.$emit('success', array, res, file, filelist)
+    },
+    remove(array, file, filelist) {
+      this.$emit('remove', array, file, filelist)
     }
   }
 }
