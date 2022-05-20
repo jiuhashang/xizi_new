@@ -23,7 +23,7 @@
             </el-col>
           </el-row>
           <el-row :gutter="20">
-            <el-col :span="8">
+            <el-col :span="10">
               <el-form-item label="计划开始">
                 <el-col :span="11" style="padding-left:0px !important;">
                   <el-date-picker type="date" placeholder="起始日期" v-model="tableInfo.startTimeFrom" value-format="yyyy-MM-dd" style="width: 100%;" />
@@ -36,7 +36,7 @@
                 </el-col>
               </el-form-item>
             </el-col>
-            <el-col :span="8" :offset="4">
+            <el-col :span="10" :offset="2">
               <el-form-item label="计划结束">
                 <el-col :span="11" style="padding-left:0px !important;">
                   <el-date-picker type="date" placeholder="起始日期" v-model="tableInfo.endTimeFrom" value-format="yyyy-MM-dd" style="width: 100%;" />
@@ -224,7 +224,7 @@
           </div>
         </div>
         <div v-else style="text-align:center;margin-top:20px;font-size:12px;">
-          <span>暂无数据</span>
+          <span style="color:#aaa;">暂无数据</span>
         </div>
         
         <c-pagination ref="pagination" :total="total" @sendsize="handleSizeChange" @sendpage="handleCurrentChange" />

@@ -184,7 +184,13 @@ const routes = [
             path: 'detail',
             name: 'Detail',
             component: () => import(/* webpackChunkName: "detail" */ '../views/epc/detail'),
-            meta: { title: '我的项目'}
+            meta: { title: '项目详情'}
+          },
+          {
+            path: 'statist',
+            name: 'tatist',
+            component: () => import(/* webpackChunkName: "statist" */ '../views/epc/statist'),
+            meta: { title: '回款统计'}
           },
           {
             path: 'team',

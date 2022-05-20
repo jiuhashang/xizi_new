@@ -41,11 +41,7 @@
     </div>
     <div class="bottom">
       <el-table :data="tableData" v-loading="loading" stripe :header-cell-style="{background:'#eef1f6',color:'#606266'}" size="mini">
-        <el-table-column label="会议主题" width="380">
-          <template slot-scope="scope">
-            <span class="yi">{{ scope.row.theme }}</span>
-          </template>
-        </el-table-column>
+        <el-table-column label="会议主题" prop="theme" show-overflow-tooltip width="380" />
         <el-table-column label="会议类型">
           <template slot-scope="scope">
             <span v-if="scope.row.type == 0">日常例会</span>

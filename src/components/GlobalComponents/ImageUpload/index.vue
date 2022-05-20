@@ -54,7 +54,8 @@ export default {
     // 图片上传的接口地址
     action: {
       type: String,
-      default: process.env.VUE_APP_BASE_API + '/huawei/uploadFile'
+      // default: process.env.VUE_APP_BASE_API + '/huawei/uploadFile'
+      default: 'http://123.60.52.140:7800/huawei/uploadFile'
     },
     // 组件是否可编辑
     disabled: {
@@ -77,7 +78,7 @@ export default {
     // 允许上传的文件类型
     accept: {
       type: String,
-      default: '.jpg,.png,.jpeg'
+      default: '.jpg,.png,.jpeg,.webp'
     },
 
     // 上传按钮的宽度
@@ -199,7 +200,7 @@ export default {
 
     // 初始的文件数量
     filesLength() {
-      console.log(this.files)
+      // console.log(this.files)
       return this.files.length
     },
 
@@ -268,7 +269,7 @@ export default {
     },
 
     beforeAvatarUpload(file) {
-      console.log(file)
+      // console.log(file)
       const isLt10M = file.size / 1024 / 1024 <= 10
 
       if (!isLt10M) {

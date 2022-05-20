@@ -297,3 +297,38 @@ export function getEditLog ( params ) {
     params
   })
 }
+
+// 回款管理
+// 回款计划列表
+export function getCollectionPlan ( params ) {
+  return request({
+    url: '/admin/seEpcProjectPaymentCollectionPlan/getList',
+    method: 'get',
+    params
+  })
+}
+
+// 新增/修改 回款计划
+export function addPlan ( params ) {
+  return request.post('/admin/seEpcProjectPaymentCollectionPlan/addOrUpdateOne', 
+  params
+  )
+}
+
+// 删除 回款计划
+export function deletePlan ( params ) {
+  return request({
+    url: '/admin/seEpcProjectPaymentCollectionPlan/deleteOne',
+    method: 'get',
+    params
+  })
+}
+
+// 获取回款计划记录列表
+export function getRecevivaLog ( params ) {
+  return request({
+    url: '/admin/seEpcProjectPaymentCollectionPlanLog/getList',
+    method: 'get',
+    params
+  })
+}

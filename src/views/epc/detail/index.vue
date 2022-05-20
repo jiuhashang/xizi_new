@@ -79,6 +79,9 @@
       <el-tab-pane label="文件材料" name="9">
         <FileMaterial :id="id" />
       </el-tab-pane>
+      <el-tab-pane label="回款管理" name="10">
+        <ReceivManagement :id="id" />
+      </el-tab-pane>
     </el-tabs>
   </div>
 </template>
@@ -95,9 +98,10 @@ import TeamMembers from './components/TeamMembers.vue'
 import ReportingInfo from './components/ReportingInfo.vue'
 import MeetingMinutes from './components/MeetingMinutes.vue'
 import FileMaterial from './components/FileMaterial.vue'
+import ReceivManagement from './components/ReceivManagement.vue'
 export default {
   name: 'Detail',
-  components: { ProjectOverview, ChangeRecord, TaskManagement, DrawingManagement, InsuranceIs, TeamMembers, ReportingInfo, MeetingMinutes, FileMaterial},
+  components: { ProjectOverview, ChangeRecord, TaskManagement, DrawingManagement, InsuranceIs, TeamMembers, ReportingInfo, MeetingMinutes, FileMaterial, ReceivManagement},
   data() {
     return {
       activeName: '1',

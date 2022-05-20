@@ -146,10 +146,14 @@ export default {
                 },
                 {
                   id: 213,
-                  label: '团队情况'
+                  label: '回款统计'
                 },
                 {
                   id: 214,
+                  label: '团队情况'
+                },
+                {
+                  id: 215,
                   label: '保险数据'
                 }
               ]

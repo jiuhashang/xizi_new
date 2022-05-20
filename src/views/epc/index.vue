@@ -15,6 +15,7 @@
           </template>
           <el-menu-item index="all" v-show="meunId.indexOf('211') > -1">全部项目</el-menu-item>
           <el-menu-item index="my" v-show="meunId.indexOf('212') > -1">我的项目</el-menu-item>
+          <el-menu-item index="statist" v-show="meunId.indexOf('213') > -1">回款统计</el-menu-item>
           <!-- <el-menu-item index="team" v-show="meunId.indexOf('213') > -1">团队情况</el-menu-item> -->
           <!-- <el-menu-item index="insurance" v-show="meunId.indexOf('214') > -1">保险数据</el-menu-item> -->
         </el-submenu>
