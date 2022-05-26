@@ -80,7 +80,8 @@
         </el-form-item>
         <el-form-item label="上传文件" prop="fileUrl" class="must-form-item">
           <!-- <file-upload-string v-model="ruleForm.fileUrl" :limit="1" /> -->
-          <file-upload ref="invertRef" :limit="1" :show-file-list="true" style="display: block;" :action="uploadUrl" :data="inverterData" @success="uploadSuccess">
+          <!-- <file-upload ref="invertRef" :limit="1" :show-file-list="true" style="display: block;" :action="uploadUrl" :data="inverterData" @success="uploadSuccess"> -->
+          <file-upload ref="invertRef" :limit="1" :show-file-list="true" style="display: block;" :action="uploadUrl" @success="uploadSuccess">
             <el-button type="primary" style="margin-right: 10px;">上传<i class="el-icon-upload el-icon--right"></i></el-button>
           </file-upload>
         </el-form-item>
@@ -162,9 +163,9 @@ export default {
       }
     }
   },
-  created () {
-    this.getList()
-  },
+  // created () {
+  //   this.getList()
+  // },
   methods: {
     getList () {
       getFileList( this.tableInfo ).then( res => {

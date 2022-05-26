@@ -2,7 +2,7 @@
   <!-- 保险情况 -->
   <el-card>
     <div class="top">
-      <el-form :inline="true" :model="form" size="mini">
+      <el-form :inline="true" :model="tableInfo" size="mini">
         <el-form-item>
           <el-input v-model="tableInfo.safeName" placeholder="保险名称搜索" clearable></el-input>
         </el-form-item>
@@ -93,7 +93,6 @@
             start-placeholder="开始日期"
             end-placeholder="结束日期"
             @change="handleTimeChange"
-            :picker-options="pickerOptions"
             style="width:100%;"
           />
         </el-form-item>
@@ -153,9 +152,9 @@ export default {
       title: ''
     }
   },
-  created () {
-    this.getList()
-  },
+  // created () {
+  //   this.getList()
+  // },
   methods: {
     getList () {
       getSafeInfo( this.tableInfo ).then( res => {

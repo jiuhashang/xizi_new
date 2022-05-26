@@ -143,9 +143,9 @@ export default {
       personTotal: 0
     }
   },
-  created () {
-    this.getList()
-  },
+  // created () {
+  //   this.getList()
+  // },
   methods: {
     // 获取项目团队成员列表
     getList () {

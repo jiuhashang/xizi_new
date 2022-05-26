@@ -59,28 +59,28 @@
         <ChangeRecord :id="id" ref="changeRecord" />
       </el-tab-pane>
       <el-tab-pane label="任务管理" name="3">
-        <TaskManagement :id="id" />
+        <TaskManagement :id="id" ref="taskManagement" />
       </el-tab-pane>
       <el-tab-pane label="图纸管理" name="4">
-        <DrawingManagement :id="id" />
+        <DrawingManagement :id="id" ref="drawingManagement" />
       </el-tab-pane>
       <el-tab-pane label="保险情况" name="5">
-        <InsuranceIs :id="id" />
+        <InsuranceIs :id="id" ref="insuranceIs" />
       </el-tab-pane>
       <el-tab-pane label="团队成员" name="6">
-        <TeamMembers :id="id" @update="updatePerson" />
+        <TeamMembers :id="id" @update="updatePerson" ref="teamMembers" />
       </el-tab-pane>
       <el-tab-pane label="汇报信息" name="7">
-        <ReportingInfo :id="id" />
+        <ReportingInfo :id="id" ref="reportingInfo" />
       </el-tab-pane>
       <el-tab-pane label="会议纪要" name="8">
-        <MeetingMinutes :id="id" />
+        <MeetingMinutes :id="id" ref="meetingMinutes" />
       </el-tab-pane>
       <el-tab-pane label="文件材料" name="9">
-        <FileMaterial :id="id" />
+        <FileMaterial :id="id" ref="fileMaterial" />
       </el-tab-pane>
       <el-tab-pane label="回款管理" name="10">
-        <ReceivManagement :id="id" />
+        <ReceivManagement :id="id" ref="receivManagement" />
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -127,6 +127,24 @@ export default {
         this.getProjectTaskCount()
       } else if (tab.index == 1) {
         this.$refs.changeRecord.getList()
+      } else if (tab.index == 2) {
+        this.$refs.taskManagement.getList()
+      } else if (tab.index == 3) {
+        this.$refs.drawingManagement.getList()
+      } else if (tab.index == 4) {
+        this.$refs.insuranceIs.getList()
+      } else if (tab.index == 5) {
+        this.$refs.teamMembers.getList()
+      } else if (tab.index == 6) {
+        this.$refs.reportingInfo.getList()
+      } else if (tab.index == 7) {
+        this.$refs.meetingMinutes.getList()
+      } else if (tab.index == 8) {
+        this.$refs.fileMaterial.getList()
+      } else if (tab.index == 9) {
+        this.$refs.receivManagement.getList()
+        this.$refs.receivManagement.getLog({ ...this.logForm, projectId: this.id, type: 1 }, 'deductTableData')
+        this.$refs.receivManagement.getLog({ ...this.logForm, projectId: this.id, type: 0 }, 'receivaTableData')
       }
     },
     getList () {

@@ -73,25 +73,6 @@
     </el-table>
     <!-- 视图 -->
     <div v-show="label === '视图'">
-      <!-- <el-table :data="tableData" stripe :header-cell-style="{background:'#eef1f6',color:'#606266'}" size="small">
-        <el-table-column label="任务名称" fixed />
-        <el-table-column label="计划时间" />
-        <el-table-column label="完成时间" />
-        <el-table-column label="时间偏差" />
-        <el-table-column label="剩余时间" />
-        <el-table-column label="任务状态" />
-        <el-table-column label="操作">
-          <template>
-            <el-button type="text">确认完成</el-button>
-            <el-button type="text">关闭任务</el-button>
-            <el-button type="text">编辑时间</el-button>
-          </template>
-        </el-table-column>
-      </el-table> -->
-      <div class="container">
-        <!-- <Gantt class="left-container" :tasks="tasks" /> -->
-        <h5>正在开发中...</h5>
-      </div>
     </div>
 
     <!-- 选择模板 -->
@@ -132,7 +113,7 @@
           <el-date-picker type="date" placeholder="结束日期" v-model="oneInfo.endTime" format="yyyy-MM-dd" value-format="yyyy-MM-dd" :picker-options="pickerOptionsOneEnd" style="width: 100%;" />
         </el-form-item>
         <el-form-item label="总计工期" prop="totalDay">
-          <el-input v-model="oneInfo.totalDay" @input="changeDay" placeholder="限大于 0 整数数字" clearable />
+          <el-input v-model="oneInfo.totalDay" placeholder="限大于 0 整数数字" clearable />
         </el-form-item>
         <el-form-item label="负责人姓名" prop="personUse">
           <el-input v-model="oneInfo.personUse" placeholder="请输入负责人姓名" clearable />
@@ -199,7 +180,6 @@
 </template>
 
 <script>
-import Gantt from '@/components/Gantt/Gantt.vue'
 import { getProjectAllTask, addTemplateTask, addProjectTask, deleteTask, closeTask } from '@/api/epc'
 import { getList } from '@/api/integrated'
 
@@ -208,7 +188,6 @@ import moment from "moment"
 export default {
   name: 'TaskManagement',
   props: ['id'],
-  components: { Gantt },
   data() {
     var check = (rule, value, callback) => {
       const reg = /^([0-9]{1,2}|100)$/
@@ -347,23 +326,12 @@ export default {
       },
       resolveRules: {
         finishTime: [{ required: true, message: '请选择日期',  trigger: 'change' }]
-      },
-
-      // 甘特图
-      tasks: {
-        data: [
-          {id: 1, text: 'Task #1', start_date: '2020-01-17', duration: 3, progress: 0.6},
-          {id: 2, text: 'Task #2', start_date: '2021-01-20', duration: 3, progress: 0.4}
-        ],
-        links: [
-          {id: 1, source: 1, target: 2, type: '0'}
-        ]
-      },
+      }
     }
   },
-  created () {
-    this.getList()
-  },
+  // created () {
+  //   this.getList()
+  // },
   methods: {
     getList () {
       getProjectAllTask({ projectId: this.id }).then( res => {

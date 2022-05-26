@@ -154,9 +154,9 @@ export default {
       viewDialogVisible: false
     }
   },
-  created () {
-    this.getList()
-  },
+  // created () {
+  //   this.getList()
+  // },
   methods: {
     getList() {
       getEpcProjecReportInfo( this.tableInfo ).then( res => {

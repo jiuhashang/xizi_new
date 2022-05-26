@@ -2,19 +2,19 @@
 module.exports = {
   lintOnSave: false, // eslint-loader 是否在保存的时候检查
   productionSourceMap: false,
-  // devServer: {
-  //   open: true,
-  //   proxy: {
-  //     '/xizi-api': {
-  //       pathRewrite: {'^/xizi-api': ''},
-  //       target: 'http://119.45.162.104/xizi-api',
-  //       // target: 'http://123.60.52.140/xizi-api',
-  //       ws: true,
-  //       secure: false,
-  //       changOrigin: true
-  //     }
-  //   }
-  // },
+  devServer: {
+    open: true,
+    proxy: {
+      '/xizi-api': {
+        pathRewrite: {'^/xizi-api': ''},
+        target: 'http://119.45.162.104/xizi-api',
+        // target: 'http://123.60.52.140/xizi-api',
+        ws: true,
+        secure: false,
+        changOrigin: true
+      }
+    }
+  },
   chainWebpack: config => {
     config.plugins.delete('prefetch')
     config.externals({
@@ -23,7 +23,9 @@ module.exports = {
       'element-ui':'ELEMENT',
       nprogress: 'NProgress',
       axios: 'axios',
-      lodash: '_'
+      lodash: '_',
+      moment: 'moment',
+      echarts: 'echarts'
     })
   }
 }

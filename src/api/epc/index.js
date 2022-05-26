@@ -332,3 +332,81 @@ export function getRecevivaLog ( params ) {
     params
   })
 }
+
+// 获取待收金额
+export function getAmount ( params ) {
+  return request({
+    url: '/admin/seEpcProjectPaymentCollectionPlan/getOne',
+    method: 'get',
+    params
+  })
+}
+
+// 添加回款/扣款 记录
+export function addPayment ( params ) {
+  return request.post('/admin/seEpcProjectPaymentCollectionPlanLog/addOne', 
+  params
+  )
+}
+
+// 跟进
+// 获取跟进记录
+export function getFollow ( params ) {
+  return request({
+    url: '/admin/seEpcProjectPaymentCollectionPlanFollow/getList',
+    method: 'get',
+    params
+  })
+}
+
+// 添加跟进记录
+export function addFollowLog ( params ) {
+  return request.post('/admin/seEpcProjectPaymentCollectionPlanFollow/addOne', 
+  params
+  )
+}
+
+// 删除跟进记录
+export function deleteFollow ( params ) {
+  return request({
+    url: '/admin/seEpcProjectPaymentCollectionPlanFollow/deleteOne',
+    method: 'get',
+    params
+  })
+}
+
+// 回款/扣款 作废
+export function cancleLog ( params ) {
+  return request({
+    url: '/admin/seEpcProjectPaymentCollectionPlanLog/cancelOne',
+    method: 'get',
+    params
+  })
+}
+
+// 回款统计
+export function getTotalCount ( params ) {
+  return request({
+    url: '/admin/seEpcProjectPaymentCollectionPlan/totalCount',
+    method: 'get',
+    params
+  })
+}
+
+// 获取月回款统计
+export function getTotalPaymentCollectionMonth ( params ) {
+  return request({
+    url: '/admin/seEpcProjectPaymentCollectionPlanLog/getTotalPaymentCollectionMonth',
+    method: 'get',
+    params
+  })
+}
+
+// 获取近六个月回款/笔数
+export function getNearSixMonthPaymentCollection ( params ) {
+  return request({
+    url: '/admin/seEpcProjectPaymentCollectionPlanLog/getNearSixMonthPaymentCollection',
+    method: 'get',
+    params
+  })
+}

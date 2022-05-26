@@ -199,9 +199,9 @@ export default {
       info: {}
     }
   },
-  created () {
-    this.getList()
-  },
+  // created () {
+  //   this.getList()
+  // },
   methods: {
     getList () {
       getEpcProjectMeetingInfo( this.tableInfo ).then( res => {

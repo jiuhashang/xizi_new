@@ -15,9 +15,11 @@
           </div>
           <div class="body">
             <el-row :gutter="20">
-              <el-col :span="12">
+              <el-col :span="12" class="yi">
                 <span class="aaa14">项目名称</span>
-                <span>{{ detailInfo.projectName }}</span>
+                <el-tooltip class="item" effect="light" :content="detailInfo.projectName" placement="top">
+                  <span>{{ detailInfo.projectName }}</span>
+                </el-tooltip>
               </el-col>
               <el-col :span="12">
                 <span class="aaa14">公司名称</span>
@@ -259,14 +261,14 @@
         </div>
       </div>
       <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="logDialogVisible = false" size="small">关 闭</el-button>
+        <el-button type="primary" @click="logDialogVisible = false" size="mini">关 闭</el-button>
       </span>
     </el-dialog>
     <!-- 自评进度 -->
     <el-dialog title="自评进度" :visible.sync="progressDialogVisible" :close-on-click-modal="false" width="40%" @close="clear">
       <el-form ref="form" :model="progressForm" :rules="rules">
         <el-form-item prop="selfAccessProgress" aligh="center">
-          <el-radio-group v-model="progressForm.selfAccessProgress" size="small">
+          <el-radio-group v-model="progressForm.selfAccessProgress" size="mini">
             <el-radio-button :label="0">起始阶段</el-radio-button>
             <el-radio-button :label="1">接入方案</el-radio-button>
             <el-radio-button :label="2">初设完成</el-radio-button>
@@ -280,8 +282,8 @@
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="progressDialogVisible = false" size="small">取 消</el-button>
-        <el-button type="primary" @click="save" size="small">确 定</el-button>
+        <el-button @click="progressDialogVisible = false" size="mini">取 消</el-button>
+        <el-button type="primary" @click="save" size="mini">确 定</el-button>
       </span>
     </el-dialog>
   </div>

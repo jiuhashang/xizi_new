@@ -118,9 +118,9 @@ export default {
       }
     }
   },
-  created () {
-    this.getList()
-  },
+  // created () {
+  //   this.getList()
+  // },
   methods: {
     getList () {
       getEditLog( this.tableInfo ).then( res => {
