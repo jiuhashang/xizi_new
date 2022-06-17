@@ -142,25 +142,41 @@
         <div v-if="list.length" >
           <div class="content" @click="handleDetail(item.id)" v-for="item in list" :key="item.id">
             <div class="top">
-              <span style="font-weight:800;">{{ item.projectName }}</span>
-              <div>
-                <span v-if="item.startTime !== null" style="margin-right:20px;">{{ item.startTime }} 至 {{ item.endTime }}</span>
-                <span v-else style="margin-right:20px;">暂定</span>
+              <div style="font-weight:800;color: #1890ff;margin-left: 10px;">{{ item.projectName }}</div>
 
-                <el-button round size="mini" v-if="item.timeLimitFlag == 0">未超期</el-button>
-                <el-button round size="mini" v-else-if="item.timeLimitFlag == 1">临期</el-button>
-                <el-button round size="mini" v-else-if="item.timeLimitFlag == 2">已过期</el-button>
-                <el-button round size="mini" v-else>  无  </el-button>
-                
-                <el-button type="primary" round size="mini" v-if="item.status == 0">未开始</el-button>
+              <div class="in">
+                <el-progress :percentage="item.timeProgress" style="width:35%;margin-right: 20px;" v-show="item.timeProgress !== null" />
+
+                <span v-if="item.startTime !== null" style="margin-right:20px;">{{ item.startTime ? item.startTime : '计划开始待定' }} 至 {{ item.endTime ? item.endTime : '计划结束待定' }}</span>
+                <span v-else style="margin-right: 55px;">计划日期待定</span>
+
+                <el-button round size="mini" v-if="item.timeLimitFlag == 0" type="primary">未超期</el-button>
+                <el-button round size="mini" v-else-if="item.timeLimitFlag == 1" style="background-color: #f56a23;color: #fff;">临期</el-button>
+                <el-button round size="mini" v-else-if="item.timeLimitFlag == 2" style="background-color: #d9001b;color: #fff; border: none;">已超期</el-button>
+              
+                <el-button round size="mini" v-if="item.status == 0">未开始</el-button>
                 <el-button type="primary" round size="mini" v-else-if="item.status == 1">进行中</el-button>
-                <el-button type="primary" round size="mini" v-else-if="item.status == 2">已暂停</el-button>
-                <el-button type="primary" round size="mini" v-else-if="item.status == 3">已结项</el-button>
-                <el-button type="primary" round size="mini" v-else>已终止</el-button>
+                <el-button style="background-color: #f56a23;color: #fff; border: none;" round size="mini" v-else-if="item.status == 2">已暂停</el-button>
+                <el-button type="success" round size="mini" v-else-if="item.status == 3">已结项</el-button>
+                <el-button style="background-color: #f56a23;color: #fff; border: none;" round size="mini" v-else>已终止</el-button>
               </div>
             </div>
             <div class="bottom">
               <el-row :gutter="20" class="mb10" style="padding-left:25px;">
+                <el-col :span="4">
+                  <span class="mr10">项目经理</span>
+                  <span>{{ item.nickName ? item.nickName : '-' }}</span>
+                </el-col>
+                <el-col :span="4">
+                  <span class="mr10">待回金额</span>
+                  <span v-if="item.totalPaymentCollectionWait">{{ item.totalPaymentCollectionWait | money }}</span>
+                  <span v-else>0.00</span>
+                </el-col>
+                <el-col :span="4">
+                  <span class="mr10">总计金额</span>
+                  <span v-if="item.totalPaymentCollectionPlan">{{ item.totalPaymentCollectionPlan | money }}</span>
+                  <span v-else>0.00</span>
+                </el-col>
                 <el-col :span="4">
                   <span class="mr10">项目来源</span>
                   <span v-show="item.projectSource == 0">自主投资</span>
@@ -168,36 +184,12 @@
                   <span v-show="item.projectSource == 9">其他项目</span>
                 </el-col>
                 <el-col :span="4">
-                  <span class="mr10">优先级别</span>
-                  <span v-show="item.firstLevel == 0">低</span>
-                  <span v-show="item.firstLevel == 1">中</span>
-                  <span v-show="item.firstLevel == 2">高</span>
-                </el-col>
-                <el-col :span="4">
-                  <span class="mr10">项目经理</span>
-                  <span>{{ item.nickName ? item.nickName : '-' }}</span>
-                </el-col>
-                <el-col :span="4">
                   <span class="mr10">主要任务</span>
-                  <span class="el-icon-success" style="color: green;font-size:14px;"></span>
-                </el-col>
-                <el-col :span="8">
-                  <span style="margin-left: 70px;margin-right:10px;">时间进度</span>
-                  <el-progress :percentage="item.timeProgress" style="width:60%;margin-top:2px;" v-if="item.timeProgress !== null" />
-                  <span v-else>-</span>
+                  <span v-if="item.taskWornImportant == 0" class="el-icon-success" style="color: green;font-size: 14px;"></span>
+                  <span v-else class="el-icon-warning" style="color: red;font-size: 14px;"></span>
                 </el-col>
               </el-row>
               <el-row :gutter="20" style="padding-left:25px;">
-                <el-col :span="4">
-                  <span class="mr10">项目类型</span>
-                  <span v-show="item.projectType == 0">分布式项目</span>
-                </el-col>
-                <el-col :span="4">
-                  <span class="mr10">紧急程度</span>
-                  <span v-show="item.urgentLevel == 0">一般</span>
-                  <span v-show="item.urgentLevel == 1">紧急</span>
-                  <span v-show="item.urgentLevel == 2">非常紧急</span>
-                </el-col>
                 <el-col :span="4">
                   <span class="mr10" style="margin-right:32px;">里程碑</span>
                   <span v-show="item.selfAccessProgress == 0">起始阶段</span>
@@ -208,8 +200,24 @@
                   <span v-show="item.selfAccessProgress == 5">竣工验收</span>
                 </el-col>
                 <el-col :span="4">
+                  <span class="mr10">是否催收</span>
+                  <span v-if="item.planStatus == 0">待回款</span>
+                  <span v-else-if="item.planStatus == 1" style="color: red;">请催收</span>
+                  <span v-else-if="item.planStatus == 2" style="color: #1890ff;">全部回款</span>
+                  <span v-else>-</span>
+                </el-col>
+                <el-col :span="4">
+                  <span class="mr10">回款比例</span>
+                  <span>{{ item.alreadyScale ? item.alreadyScale + '%' : '0.00 %' }}</span>
+                </el-col>
+                <el-col :span="4">
+                  <span class="mr10">项目类型</span>
+                  <span v-show="item.projectType == 0">分布式项目</span>
+                </el-col>
+                <el-col :span="4">
                   <span class="mr10">一般任务</span>
-                  <span class="el-icon-warning" style="color:red;font-size:14px;"></span>
+                  <span v-if="item.taskWornUsual == 0" class="el-icon-success" style="color: green;font-size:14px;"></span>
+                  <span v-else class="el-icon-warning" style="color:red;font-size:14px;"></span>
                 </el-col>
               </el-row>
             </div>
@@ -228,7 +236,7 @@
 <script>
 import { getList } from '@/api/epc'
 export default {
-  name: 'My',
+  name: 'All',
   data() {
     return {
       tableInfo: {
@@ -316,20 +324,23 @@ export default {
   font-size: 12px;
   border: 1px solid #DCDFE6;
   &:hover {
-    // border-color: black;
     cursor: pointer;
     border-radius: 3px;
-    box-shadow: 0px 0px 5px 5px #aaa;
+    box-shadow: 0px 0px 1px 1px #aaa;
     }
   .top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    background-color: #f7f9fa;
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
     padding: 5px 15px;
-    span {
-      padding-left: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .in {
+      width: 60%;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
     }
   }
   .bottom {
@@ -354,5 +365,8 @@ export default {
 }
 .el-progress {
   display: inline-block;
+}
+/deep/ .el-progress__text {
+  font-size: 12px !important;
 }
 </style>

@@ -496,7 +496,7 @@ export default {
       }
       :last-child {
         font-size: 16px;
-        font-weight: 800;
+        font-weight: bold;
         color: #000;
       }
     }
@@ -529,6 +529,6 @@ export default {
     margin-top: -5px;
   }
   /deep/ .card .el-card__body{
-    padding: 0 10px;
+    padding: 0 15px;
   }
 </style>

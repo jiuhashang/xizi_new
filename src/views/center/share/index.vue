@@ -37,7 +37,7 @@
         <el-table-column prop="projectName" label="项目名称" />
         <el-table-column prop="companyName" label="公司名称" />
         <el-table-column prop="createTime" label="创建时间" />
-        <el-table-column label="当前进度">
+        <el-table-column label="当前进度" width="120">
           <template slot-scope="scope">
             <span v-if="scope.row.status == 0 || scope.row.status == 2">待录入</span>
             <span v-else-if="scope.row.status == 1">初审审核</span>
@@ -48,8 +48,8 @@
             <span v-else-if="scope.row.status == 99">项目终止</span>
           </template>
         </el-table-column>
-        <el-table-column prop="shareCountNum" label="已分享机构数" />
-        <el-table-column label="操作" width="100">
+        <el-table-column prop="shareCountNum" label="已分享机构数" width="120" />
+        <el-table-column label="操作" width="80">
           <template slot-scope="scope">
             <el-button type="text" @click="handleView(scope.row)">管理分享</el-button>
           </template>

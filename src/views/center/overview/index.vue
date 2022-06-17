@@ -36,13 +36,13 @@
       <el-table :data="tableData" v-loading="loading" stripe :header-cell-style="{background:'#eef1f6',color:'#606266'}" size="mini">
         <el-table-column prop="projectName" label="项目名称" />
         <el-table-column prop="companyName" label="公司名称" />
-        <el-table-column label="建站地址">
+        <el-table-column label="建站地址" width="160">
           <template slot-scope="scope">
             {{ scope.row.province }} - {{ scope.row.city }}
           </template>
         </el-table-column>
-        <el-table-column prop="createTime" label="项目发起时间" />
-        <el-table-column label="当前进度">
+        <el-table-column prop="createTime" label="项目发起时间" width="160" />
+        <el-table-column label="当前进度" width="100">
           <template slot-scope="scope">
             <span v-if="scope.row.status == 0 || scope.row.status == 2">待录入</span>
             <span v-else-if="scope.row.status == 1">初审审核</span>
